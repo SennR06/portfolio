@@ -1,0 +1,889 @@
+:root {
+    --primary-color: #2C52E5;
+    --secondary-color: #001E90;
+    --grid-color: rgba(44, 82, 229, 0.15);
+    --background-color: #E4E9FF;
+    --black: #000000;
+    --white: #FFFFFF;
+}
+
+body {
+    background-color: var(--background-color);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    transition: ease 1s;
+    width: 100vw;
+    height: 100vh;
+}
+
+body.up {
+    background-size: 37px 37px;
+}
+
+main {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    height: 100vh;
+    padding-right: 100px;
+}
+
+h1 {
+    font-family: Outfit, sans-serif;
+    font-size: 6rem;
+    font-weight: bold;
+    word-wrap: break-word;
+    line-height: 5rem;
+    color: var(--primary-color);
+    width: min-content;
+}
+
+h2 {
+    font-family: Outfit, sans-serif;
+    font-size: 6rem;
+    line-height: 5rem;
+    font-weight: bold;
+    color: var(--black);
+    text-wrap: nowrap;
+}
+
+h3 {
+    font-family: Outfit, sans-serif;
+    font-size: 2rem;
+    line-height: 2.5rem;
+    font-weight: bold;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+h4 {
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    font-weight: 300;
+    color: var(--white);
+    text-transform: uppercase;
+}
+
+p {
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    line-height: 1.25rem;
+    color: var(--white);
+}
+
+a {
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    color: var(--white);
+    background-color: var(--primary-color);
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 10px 14px;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.heading-links-grp {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    margin: 50px 0 0 50px;
+    transition: .8s ease;
+}
+
+.heading-links-grp.up {
+    transform: translate(-500px, -500px);
+    scale: .75;
+}
+
+.heading.links {
+    display: flex;
+    position: relative;
+    gap: 50px;
+    padding-left: 25px;
+}
+
+.heading.links a {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: .3s ease;
+    overflow: hidden;
+    z-index: 10;
+}
+
+.dashed-wrapper {
+    position: relative;
+}
+
+.heading.links .dashed-wrapper::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -8px;
+    height: 160%;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 3px 18px, 3px 18px;
+    background-position: 0 0, 100% 0;
+    background-repeat: repeat-y;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.heading.links .dashed-wrapper::after {
+    content: "";
+    position: absolute;
+    left: -16px;
+    top: 0;
+    bottom: 0;
+    width: 125%;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+    background-repeat: repeat-x;
+    background-size: 18px 3px, 18px 3px;
+    background-position: 0 0, 0 100%, 0 0, 100% 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.heading.links a:hover {
+    transform: rotateX(10deg) rotateY(-10deg) translate(7px, -7px);
+    scale: 1.05;
+}
+
+.heading.links .dashed-wrapper:hover::before {
+    animation: move-dash-vertical 0.5s linear infinite;
+    opacity: 0.5;
+}
+
+.heading.links .dashed-wrapper:hover::after {
+    animation: move-dash-horizontal 0.5s linear infinite;
+    opacity: 0.5;
+}
+
+@keyframes move-dash-horizontal {
+    from {
+        background-position: 0 0, 0 100%;
+    }
+
+    to {
+        background-position: 18px 0, 18px 100%;
+    }
+}
+
+@keyframes move-dash-vertical {
+    from {
+        background-position: 0 0, 100% 0;
+    }
+
+    to {
+        background-position: 0 18px, 100% 18px;
+    }
+}
+
+.heading.links a:hover svg {
+    transition: .3s ease;
+    transform: translate(30px, -30px);
+}
+
+.heading.links a svg:nth-child(2) {
+    position: absolute;
+    right: 14px;
+    transform: translate(-30px, 30px);
+}
+
+.heading.links a:hover svg:nth-child(2) {
+    transform: translate(0, 0);
+}
+
+.projects {
+    display: flex;
+    flex-direction: row;
+    gap: 80px;
+    margin-top: 50px;
+    margin-left: -200px;
+    transition: .8s ease;
+}
+
+.projects.up {
+    transform: translate(-370px, -370px);
+}
+
+.project {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    padding: 25px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    height: fit-content;
+    width: min-content;
+    will-change: transform;
+    position: relative;
+    transition: .3s ease;
+}
+
+/* Kleine = langzamer / “verder weg” */
+.project[data-depth="0.8"] {
+    scale: 0.9;
+}
+
+/* Medium */
+.project[data-depth="1.2"] {
+    scale: 1;
+}
+
+/* Groot = sneller / “dichterbij” */
+.project[data-depth="1.6"] {
+    scale: 1.1;
+}
+
+.projects.up .project[data-depth="0.8"] {
+    scale: 0.8;
+}
+.projects.up .project[data-depth="1.2"] {
+    scale: 0.9;
+}
+.projects.up .project[data-depth="1.6"] {
+    scale: 0.85;
+}
+
+.project.one {
+    margin-top: 380px;
+}
+.projects.up .project.one {
+    margin-top: 340px;
+}
+.project.two {
+    margin-top: 220px;
+}
+.projects.up .project.two {
+    margin-top: 430px;
+}
+
+.project.three {
+    margin-top: 320px;
+}
+
+.projects.up .project.three {
+    margin-top: 390px;
+}
+
+.project.four {
+    margin-top: 260px;
+}
+
+.projects.up .project.four {
+    margin-top: 440px;
+}
+
+.project img {
+    height: 50vh;
+    aspect-ratio: 23/20;
+    object-fit: cover;
+}
+
+.project .txt-grp {
+    display: flex;
+    flex-direction: column;
+    max-width: 65%;
+}
+
+.project .txt-grp h4 {
+    margin-bottom: 10px;
+}
+
+.project .txt-btn-grp {
+    display: flex;
+    gap: 25px;
+}
+
+.project .txt-btn-grp a {
+    display: flex;
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    width: 140px;
+    height: 158px;
+    background: var(--secondary-color);
+    box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.30);
+    padding: 0;
+    overflow: hidden;
+    transition: .3s ease;
+}
+
+.project .txt-btn-grp a:hover {
+    box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.30);
+    scale: .95;
+}
+
+.project .txt-btn-grp a:hover svg {
+    transform: translate(80px, -80px);
+    transition: .3s ease;
+}
+
+.project .txt-btn-grp a svg:nth-child(2) {
+    position: absolute;
+    transform: translate(-80px, 80px);
+}
+
+.project .txt-btn-grp a:hover svg:nth-child(2) {
+    transform: translate(0, 0);
+}
+
+.project::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: -48px;
+    height: 128%;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 3px 18px, 3px 18px;
+    background-position: 0 0, 100% 0;
+    background-repeat: repeat-y;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.project::after {
+    content: "";
+    position: absolute;
+    left: -30px;
+    bottom: 0;
+    top: 0;
+    width: 120%;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+    background-size: 18px 3px, 18px 3px;
+    background-position: 0 0, 0 100%;
+    background-repeat: repeat-x;
+    z-index: -1;
+    pointer-events: none;
+}
+
+.project:hover::before {
+    animation: move-dash-vertical 0.5s linear infinite;
+}
+
+.project:hover::after {
+    animation: move-dash-horizontal 0.5s linear infinite;
+}
+
+.about-me {
+    scroll-snap-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    gap: 100px;
+    height: min-content;
+    width: min-content;
+    overflow-x: visible;
+    padding-right: 100px;
+    transition: .8s ease;
+}
+
+.about-me.up {
+    transform: translatey(-180%);
+}
+
+.about-me h3 {
+    color: var(--primary-color);
+    font-size: 6rem;
+    line-height: 5rem;
+    font-weight: bold;
+    width: 495px;
+    margin-bottom: 10px;
+}
+
+.about-me p {
+    color: var(--primary-color);
+    margin-bottom: 50px;
+}
+
+.about-me .left {
+    width: min-content;
+}
+
+#study-toolbox-grp {
+    display: flex;
+    justify-content: space-between;
+}
+
+.study {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--grid-color),
+            var(--grid-color) 1px,
+            transparent 1px,
+            transparent 6px);
+    background-repeat: repeat;
+    padding: 10px;
+    width: fit-content;
+    border: 1px solid var(--primary-color);
+}
+
+.study::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: -1px;
+    bottom: -1px;
+    width: 120%;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+    background-size: 18px 1px, 18px 1px;
+    background-position: 0 0, 0 100%;
+    background-repeat: repeat-x;
+    z-index: -1;
+}
+
+.study::after {
+    content: "";
+    position: absolute;
+    left: -1px;
+    top: -25px;
+    right: -1px;
+    height: 138%;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 1px 18px, 1px 18px;
+    background-position: 0 0, 100% 0;
+    background-repeat: repeat-y;
+    z-index: -1;
+}
+
+.study:hover::before {
+    animation: move-dash-horizontal 0.5s linear infinite;
+}
+
+.study:hover::after {
+    animation: move-dash-vertical 0.5s linear infinite;
+}
+
+.study #heading-logo-grp {
+    display: flex;
+    align-items: center;
+    gap: 80px;
+    margin-bottom: 10px;
+    width: fit-content;
+}
+
+#study-toolbox-grp h4 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    width: fit-content;
+}
+
+.study p {
+    max-width: 155px;
+    margin-bottom: 25px;
+}
+
+.study h5 {
+    font-family: Outfit, sans-serif;
+    font-weight: bold;
+    color: var(--primary-color);
+    font-size: 1rem;
+    line-height: 1rem;
+    width: fit-content;
+    margin-bottom: 5px;
+}
+
+.study img {
+    width: 24px;
+}
+
+.study .progress {
+    display: flex;
+    flex-direction: row;
+    width: fit-content;
+    gap: 10px;
+}
+
+.study .progress .year {
+    width: 25px;
+    height: 25px;
+    background-color: var(--primary-color);
+    color: var(--white);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 0.75rem;
+    font-family: Outfit, sans-serif;
+    opacity: 0.3;
+}
+
+.study .progress .year.active {
+    opacity: 1;
+}
+
+.my-toolbox {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.my-toolbox h4 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+}
+
+.toolbox {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    padding: 10px;
+    stroke: var(--primary-color);
+}
+
+.toolbox::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size:
+        15px 1px,
+        1px 15px,
+        15px 1px,
+        1px 15px;
+    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+    background-position:
+        0 0,
+        100% 0,
+        0 100%,
+        0 0;
+}
+
+.toolbox:hover::before {
+    animation: toolbox-border-dash 1s linear infinite;
+}
+
+@keyframes toolbox-border-dash {
+    to {
+        background-position:
+            -15px 0,
+            100% -15px,
+            15px 100%,
+            0 15px;
+    }
+}
+
+.toolbox img {
+    height: 30px;
+    transition: .3s ease;
+}
+
+.toolbox img:hover {
+    scale: 1.1;
+}
+
+.about-me img.right {
+    height: 80vh;
+    width: auto;
+}
+
+.line {
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0;
+    right: 0;
+    height: fit-content;
+}
+
+.line .first {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 20vh;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 2px 18px;
+    background-position: 0 0, 0 100%;
+    background-repeat: repeat-y;
+}
+
+.line .second {
+    position: absolute;
+    top: 20vh;
+    left: 0;
+    height: 55vh;
+    width: 0;
+    border: 1px solid var(--primary-color);
+}
+.contact .line {
+    right: 50px;
+    bottom: -10vh;
+    top: auto;
+}
+.contact .line .first {
+    bottom: 0;
+    top: auto;
+}
+.contact .line .second {
+    bottom: 20vh;
+    top: auto;
+}
+
+.line .second::after {
+    content: "SCROLL DOWN - FOR CONTACT";
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    transform: translate(60%, -780%) rotate(90deg);
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    color: var(--primary-color);
+    font-weight: 400;
+    width: max-content;
+}
+.contact .line .second::after {
+    content: "SCROLL UP - FOR ABOUT ME";
+    transform: translate(60%, 680%) rotate(90deg);
+    bottom: auto;
+    top: 0;
+}
+
+@media (max-height: 600px) {
+    .about-me .left {
+        display: flex;
+        gap: 50px;
+    }
+
+    #study-toolbox-grp {
+        flex-direction: column;
+        gap: 50px;
+    }
+    #section-scroll-container {
+        padding-right: 50px;
+    }
+}
+
+.contact {
+    position: relative;
+    scroll-snap-align: center;
+    display: flex;
+    align-items: center;
+    margin-top: 50vh;
+    transform: translateY(-50%);
+    height: fit-content;
+    width: min-content;
+    overflow-x: visible;
+    gap: 150px;
+}
+
+.contact h3 {
+    color: var(--primary-color);
+    font-size: 6rem;
+    line-height: 5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    width: max-content;
+}
+
+.contact form {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.contact form #email,
+.contact form #company,
+.contact form #message,
+.contact form button {
+    grid-column: span 2;
+}
+
+.contact form input,
+.contact form textarea {
+    padding: 15px 20px;
+    border: 3px solid var(--primary-color);
+    color: var(--primary-color);
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    background-color: transparent;
+    transition: .3s ease;
+}
+
+.contact form input::placeholder,
+.contact form textarea::placeholder {
+    color: var(--primary-color);
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    opacity: 0.5;
+}
+
+.contact form input:focus,
+.contact form textarea:focus {
+    outline: none;
+    background-color: var(--primary-color);
+    color: var(--white);
+}
+
+.contact form input:focus::placeholder,
+.contact form textarea:focus::placeholder {
+    color: var(--white);
+}
+
+.contact form button {
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: var(--white);
+    padding: 15px 20px;
+    gap: 5px;
+    border: none;
+    cursor: pointer;
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    transition: .3s ease;
+}
+
+.contact form button:hover {
+    gap: 10px;
+}
+
+.contact form::before {
+    content: "";
+    position: absolute;
+    left: -30px;
+    top: 0;
+    bottom: 60px;
+    width: 120%;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%);
+    background-size: 18px 3px, 18px 3px;
+    background-position: 0 0, 0 100%;
+    background-repeat: repeat-x;
+    pointer-events: none;
+}
+
+.contact form::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: -25px;
+    right: 0;
+    height: 138%;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 3px 18px, 3px 18px;
+    background-position: 0 0, 100% 0;
+    background-repeat: repeat-y;
+    pointer-events: none;
+}
+
+.contact form:hover::before {
+    animation: move-dash-horizontal 0.5s linear infinite;
+}
+
+.contact form:hover::after {
+    animation: move-dash-vertical 0.5s linear infinite;
+}
+
+.contact .right .profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 25px;
+    width: max-content;
+}
+
+.contact .right .profile h4 {
+    color: var(--black);
+}
+
+.contact .right .profile img {
+    width: 50px;
+    height: 50px;
+}
+
+.contact .right .platforms {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 385px;
+}
+
+.contact .right .platforms a {
+    display: flex;
+    align-items: center;
+    padding: 0;
+    background-color: transparent;
+}
+
+.contact .right .platforms .svg-container {
+    width: 200px;
+    height: 50px;
+    background-color: var(--primary-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: .3s ease;
+}
+
+.contact .right .platforms a p {
+    text-transform: none;
+    color: var(--primary-color);
+    opacity: 0;
+    transition: .3s ease;
+}
+
+.contact .right .platforms a:hover .svg-container {
+    width: 50px;
+}
+
+.contact .right .platforms a:hover p {
+    opacity: 1;
+}
+
+#section-scroll-container {
+    margin-left: -200px;
+    height: 100vh;
+    width: min-content;
+    overflow-y: scroll;
+    overflow-x: visible;
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+}
+
+#section-scroll-container::-webkit-scrollbar {
+    display: none;
+}
