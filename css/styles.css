@@ -818,6 +818,66 @@ a {
     animation: move-dash-vertical 0.5s linear infinite;
 }
 
+.contact form .conformation-message {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    pointer-events: none;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--grid-color),
+            var(--grid-color) 1px,
+            transparent 1px,
+            transparent 6px);
+    background-repeat: repeat;
+    background-color: var(--background-color);
+}
+.contact form .conformation-message .circle {
+    background-color: var(--primary-color);
+    border-radius: 50px;
+    height: 100px;
+    width: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.contact form .conformation-message h4 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+.contact form .conformation-message p {
+    color: var(--primary-color);
+}
+
+.contact form .conformation-message svg {
+    scale: 0;
+}
+.contact form .conformation-message.visible {
+    opacity: 1;
+}
+.contact form .conformation-message.visible svg{
+    animation: checkmarkAnimation 0.5s linear(0, 0.402 7.4%, 0.711 15.3%, 0.929 23.7%, 1.008 28.2%, 1.067 33%, 1.099 36.9%, 1.12 41%, 1.13 45.4%, 1.13 50.1%, 1.111 58.5%, 1.019 83.2%, 1.004 91.3%, 1) 0.3s forwards;
+}
+
+@keyframes checkmarkAnimation {
+    from {
+        scale: 0;
+    }
+    to {
+        scale: 1;
+    }
+}
+
 .contact .right .profile {
     display: flex;
     align-items: center;

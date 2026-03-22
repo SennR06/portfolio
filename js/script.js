@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         e.preventDefault();
                         scrollTarget.scrollLeft += horizontalDelta;
                         this.setTimeout(() => {
-                        scrollContainer.style.overflowY = 'auto';
+                            scrollContainer.style.overflowY = 'auto';
                         }, 1);
                     }
                     return;
@@ -164,4 +164,63 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Zorg dat de beginpositie direct goed staat
     updateProjectsParallax();
+
+    const form = document.getElementById('form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    const conformationMessage = document.getElementsByClassName('conformation-message')[0];
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const emailInput = document.getElementById('email');
+        const email = emailInput.value.trim();
+
+
+        if (!isValidEmail(email)) {
+            alert("Vul een geldig e-mailadres in.");
+            emailInput.focus();
+            return;
+        }
+
+        const formData = new FormData(form);
+        formData.append("access_key", "18bba8b1-f675-4f35-9b51-0000d6743cdb");
+
+        const originalText = submitBtn.textContent;
+
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
+
+        try {
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                conformationMessage.classList.add('visible');
+                submitBtn.textContent = "Back to the form";
+                submitBtn.disabled = false;
+
+                submitBtn.onclick = () => {
+                    conformationMessage.classList.remove('visible');
+                    form.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.onclick = null; // handler opruimen
+                    console.log("Form reset, ready for new submission.");
+                };
+            } else {
+                alert("Error: " + data.message);
+            }
+
+        } catch (error) {
+            alert("Something went wrong. Please try again.");
+        }
+    });
+
+    function isValidEmail(email) {
+        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return regex.test(email);
+    }
 });
