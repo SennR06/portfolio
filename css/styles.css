@@ -87,12 +87,63 @@ a {
     gap: 5px;
     cursor: pointer;
 }
+.titles-scroller {
+    position: fixed;
+    left: 0;
+    top: 100vh;
+    display: flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    width: 100vh;
+    height: 40px;
+    rotate: -90deg;
+    transform-origin: top left;
+    z-index: 999;
+}
+.scroller-inner {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 25px;
+    width: fit-content;
+    animation: move-titles 25s linear infinite;
+}
+.titles-scroller p {
+    position: relative;
+    text-wrap: nowrap;
+    opacity: 0.5;
+    margin-left: 55px;
+}
+.titles-scroller p:first-child {
+    margin-left: 0;
+}
+.titles-scroller p::after {
+    content: "";
+    display: inline-block;
+    position: absolute;
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    margin: 0 30px;
+    width: 25px;
+    height: 1px;
+    background-color: var(--white);
+}
+
+@keyframes move-titles {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(calc(-50% - 40px));
+    }
+}
 
 .heading-links-grp {
     display: flex;
     flex-direction: column;
     gap: 25px;
-    margin: 50px 0 0 50px;
+    margin: 50px 0 0 100px;
     transition: .8s ease;
 }
 

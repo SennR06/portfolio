@@ -223,4 +223,16 @@ document.addEventListener('DOMContentLoaded', function () {
         const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
         return regex.test(email);
     }
+
+    const scrollers = document.querySelectorAll(".titles-scroller");
+    scrollers.forEach((scrollers) => {
+        scrollers.setAttribute("data-animated", true);
+        const scrollerInner = scrollers.querySelector(".scroller-inner");
+        const scrollerContent = Array.from(scrollerInner.children);
+        scrollerContent.forEach((item) => {
+            const duplicatedItem = item.cloneNode(true);
+            duplicatedItem.setAttribute("aria-hidden", true);
+            scrollerInner.appendChild(duplicatedItem);
+        });
+    });
 });
