@@ -125,6 +125,30 @@ a {
     cursor: pointer;
 }
 
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    padding: 25px 0 25px 65px;
+    z-index: 999;
+    transform: translateY(-100%);
+    transition: .8s ease;
+}
+header .heading.links {
+    padding-left: 0;
+    transition: .3s ease;
+}
+header .heading.links .dashed-wrapper {
+    opacity: 0.5;
+    transition: .3s ease;
+}
+header .heading.links .dashed-wrapper:hover {
+    opacity: 1;
+}
+
 .titles-scroller {
     position: fixed;
     left: 0;
@@ -362,7 +386,7 @@ a {
 }
 
 .projects.up .project.one {
-    margin-top: 340px;
+    margin-top: 360px;
 }
 
 .project.two {
@@ -1047,7 +1071,8 @@ a {
 }
 
 #section-scroll-container {
-    margin-left: -200px;
+    margin-left: -800px;
+    padding-left: 600px;
     height: 100vh;
     width: min-content;
     overflow-y: scroll;

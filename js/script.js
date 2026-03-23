@@ -59,6 +59,8 @@ document.addEventListener('DOMContentLoaded', function () {
     const headingLinksGrp = document.querySelector('.heading-links-grp');
     const projects = document.querySelector('.projects');
     const projectCards = document.querySelectorAll('.project');
+    const header = document.querySelector('header');
+    let headerTimeout = null;
 
     let lastMouseOffsetX = 0;
     let lastMouseOffsetY = 0;
@@ -77,7 +79,6 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     }
 
-    // NIEUW: parallax functie
     function updateProjectsParallax() {
         if (!projectCards.length) return;
 
@@ -97,13 +98,28 @@ document.addEventListener('DOMContentLoaded', function () {
 
     window.addEventListener('scroll', () => {
         if (window.scrollX > 0) {
+            if (headerTimeout !== null) {
+                clearTimeout(headerTimeout);
+                headerTimeout = null;
+            }
+
             headingLinksGrp.classList.add('up');
             document.body.classList.add('up');
             projects.classList.add('up');
+
+            headerTimeout = setTimeout(() => {
+                header.style.transform = 'translateY(0)';
+            }, 300);
+
         } else {
+            if (headerTimeout !== null) {
+                clearTimeout(headerTimeout);
+                headerTimeout = null;
+            }
             headingLinksGrp.classList.remove('up');
             document.body.classList.remove('up');
             projects.classList.remove('up');
+            header.style.transform = 'translateY(-100%)';
         }
 
         const scrollDelta = window.scrollX;
@@ -111,7 +127,7 @@ document.addEventListener('DOMContentLoaded', function () {
         lastMouseOffsetX += (-scrollDelta * scrollFactor - lastMouseOffsetX) * 0.1;
 
         updateBackground();
-        updateProjectsParallax(); // NIEUW
+        updateProjectsParallax();
     });
 
     document.addEventListener('mousemove', (e) => {
@@ -135,20 +151,20 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     const projectsBtn = document.getElementById('projects-btn');
-    projectsBtn.addEventListener('click', () => {
+    window.scrollToProjects = function () {
         scrollTarget.scrollTo({
             left: 6,
             behavior: 'smooth',
         });
-    });
+    };
 
     const contactBtn = document.getElementById('contact-btn');
     const contactSection = document.getElementById('contact');
-    contactBtn.addEventListener('click', () => {
+    window.scrollToContact = function () {
         contactSection.scrollIntoView({
             behavior: 'smooth',
         });
-    });
+    };
 
     window.addEventListener(
         'keydown',
@@ -241,4 +257,43 @@ document.addEventListener('DOMContentLoaded', function () {
             scrollerInner.appendChild(duplicatedItem);
         });
     });
+
+    const projectsSection = document.querySelector('.projects');
+    const projectsBtnHeader = document.getElementById('projects-btn-header');
+    const contactBtnHeader = document.getElementById('contact-btn-header');
+    const headerLinks = document.querySelector('.heading.links.header');
+
+    const observer = new IntersectionObserver(
+        (entries) => {
+            entries.forEach((entry) => {
+                const target = entry.target;
+
+                if (target === projectsSection) {
+                    if (entry.isIntersecting) {
+                        projectsBtnHeader.style.display = "none";
+                    } else {
+                        projectsBtnHeader.style.display = "";
+                    }
+                }
+
+                if (target === contactSection) {
+                    if (entry.isIntersecting) {
+                        contactBtnHeader.style.display = "none";
+                    } else {
+                        contactBtnHeader.style.display = "";
+                    }
+                }
+            });
+
+            const anyIntersecting = entries.some(e => e.isIntersecting);
+            headerLinks.style.gap = anyIntersecting ? "0" : "50px";
+        },
+        {
+            root: null,
+            threshold: 0.1
+        }
+    );
+
+    observer.observe(projectsSection);
+    observer.observe(contactSection);
 });
