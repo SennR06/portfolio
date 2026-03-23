@@ -241,10 +241,16 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    function isValidEmail(email) {
-        const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        return regex.test(email);
-    }
+    form.addEventListener('submit', function (e) {
+
+        const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
+
+        if (!hCaptcha) {
+            e.preventDefault();
+            alert("Please fill out captcha field")
+            return
+        }
+    });
 
     const scrollers = document.querySelectorAll(".titles-scroller");
     scrollers.forEach((scrollers) => {
@@ -296,4 +302,18 @@ document.addEventListener('DOMContentLoaded', function () {
 
     observer.observe(projectsSection);
     observer.observe(contactSection);
+
+    const cursor = document.querySelector('.cursor');
+    const links = document.querySelectorAll('a');
+
+    links.forEach(link => {
+        link.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+        });
+
+        link.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+        });
+    });
+
 });

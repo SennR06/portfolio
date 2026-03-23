@@ -35,12 +35,14 @@ body.up {
     width: 36px;
     height: 36px;
     pointer-events: none;
-    transition: transform 0.1s ease-out;
+    transition: transform 0.3s ease-out;
     z-index: 1000;
     transform: translate(-50%, -50%);
     mix-blend-mode: difference;
 }
-.cursor::before {
+
+.cursor::before,
+.cursor::after {
     content: "";
     position: absolute;
     top: 50%;
@@ -50,15 +52,20 @@ body.up {
     transform: translate(-50%, -50%) scale(1);
     background-color: #B8971A;
 }
+
 .cursor::after {
-    content: "";
-    position: absolute;
-    top: 50%;
-    left: 50%;
     width: 4px;
     height: 100%;
-    transform: translate(-50%, -50%) scale(1);
-    background-color: #B8971A;
+}
+
+.cursor::before,
+.cursor::after {
+    transition: .3s ease;
+}
+
+.cursor.hover,
+.cursor.hover {
+    transform: translate(1px, -1px) scale(0.8) rotate(90deg);
 }
 
 main {
@@ -66,7 +73,7 @@ main {
     flex-direction: row;
     width: fit-content;
     height: 100vh;
-    padding-right: 100px;
+    padding-right: 25px;
 }
 
 h1 {
@@ -137,14 +144,17 @@ header {
     transform: translateY(-100%);
     transition: .8s ease;
 }
+
 header .heading.links {
     padding-left: 0;
     transition: .3s ease;
 }
+
 header .heading.links .dashed-wrapper {
     opacity: 0.5;
     transition: .3s ease;
 }
+
 header .heading.links .dashed-wrapper:hover {
     opacity: 1;
 }
@@ -731,8 +741,14 @@ header .heading.links .dashed-wrapper:hover {
     transition: .3s ease;
 }
 
+.toolbox:hover img {
+    scale: .9;
+    opacity: .7;
+}
+
 .toolbox img:hover {
     scale: 1.1;
+    opacity: 1;
 }
 
 .about-me img.right {
@@ -850,10 +866,9 @@ header .heading.links .dashed-wrapper:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
+    width: max-content;
 }
 
-.contact form #email,
-.contact form #company,
 .contact form #message,
 .contact form button {
     grid-column: span 2;
@@ -1002,6 +1017,93 @@ header .heading.links .dashed-wrapper:hover {
 
 .contact form .conformation-message.visible svg {
     animation: checkmarkAnimation 0.5s linear(0, 0.402 7.4%, 0.711 15.3%, 0.929 23.7%, 1.008 28.2%, 1.067 33%, 1.099 36.9%, 1.12 41%, 1.13 45.4%, 1.13 50.1%, 1.111 58.5%, 1.019 83.2%, 1.004 91.3%, 1) 0.3s forwards;
+}
+
+.captcha-wrapper {
+    position: relative;
+    padding: 15px 15px 10px 15px;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--grid-color),
+            var(--grid-color) 1px,
+            transparent 1px,
+            transparent 6px);
+    border: 3px solid var(--primary-color);
+    overflow: hidden;
+    grid-column: span 2;
+    width: fit-content;
+}
+
+.captcha-header {
+    margin-bottom: 8px;
+}
+
+.captcha-header h5 {
+    font-family: Outfit, sans-serif;
+    font-weight: bold;
+    font-size: 0.85rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin-bottom: 4px;
+}
+
+.captcha-header p {
+    font-size: 0.85rem;
+    line-height: 1.1rem;
+    color: var(--primary-color);
+    opacity: 0.7;
+}
+
+.captcha-wrapper .h-captcha {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.captcha-wrapper:hover::before {
+    animation: move-dash-horizontal 0.5s linear infinite;
+}
+
+.captcha-wrapper:hover::after {
+    animation: move-dash-vertical 0.5s linear infinite;
+}
+
+@media (max-height: 600px) {
+    .contact form {
+        grid-template-columns: auto;
+        grid-template-areas:
+            "first last captcha"
+            "email company captcha"
+            "message message captcha"
+            "button button button";
+    }
+
+    .contact form #first-name {
+        grid-area: first;
+    }
+
+    .contact form #last-name {
+        grid-area: last;
+    }
+
+    .contact form #email {
+        grid-area: email;
+    }
+
+    .contact form #company {
+        grid-area: company;
+    }
+
+    .contact form #message {
+        grid-area: message;
+    }
+
+    .contact form button {
+        grid-area: button;
+    }
+
+    .contact form .captcha-wrapper {
+        grid-area: captcha;
+    }
 }
 
 @keyframes checkmarkAnimation {

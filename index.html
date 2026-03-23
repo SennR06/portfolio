@@ -18,8 +18,8 @@
     <header>
         <div class="heading links header">
             <div class="dashed-wrapper">
-                <a onclick="scrollToProjects()" id="projects-btn-header">projects <svg xmlns="http://www.w3.org/2000/svg"
-                        width="15" height="15" viewBox="0 0 15 15" fill="none">
+                <a onclick="scrollToProjects()" id="projects-btn-header">projects <svg
+                        xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
                         <path
                             d="M0.131608 13.5712L12.0927 1.61007L3.50787e-05 1.58253L3.49944e-05 -4.4768e-06H14.8447V14.8447H13.2346L13.2346 2.75197L1.27351 14.7131L0.131608 13.5712Z"
                             fill="white" />
@@ -219,11 +219,18 @@
                 <div class="left">
                     <h3>LET'S BUILD</h3>
                     <form method="POST" id="form">
-                        <input type="text" name="first-name" id="fist-name" placeholder="First name" required>
+                        <input type="text" name="first-name" id="first-name" placeholder="First name" required>
                         <input type="text" name="last-name" id="last-name" placeholder="Last name" required>
                         <input type="email" name="email" id="email" placeholder="E-mail" required>
                         <input type="text" name="company" id="company" placeholder="Company (optional)">
                         <textarea name="message" id="message" placeholder="Message" required></textarea>
+                        <div class="captcha-wrapper">
+                            <div class="captcha-header">
+                                <h5>HUMAN CHECKPOINT</h5>
+                                <p>Just a quick security check. Please confirm below that you're not a robot.</p>
+                            </div>
+                            <div class="h-captcha" data-captcha="true"></div>
+                        </div>
                         <button type="submit">Send message
                             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14"
                                 fill="none">
@@ -306,6 +313,7 @@
             </section>
         </div>
     </main>
+    <script src="https://web3forms.com/client/script.js" async defer></script>
 </body>
 
 </html>
