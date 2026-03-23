@@ -194,14 +194,12 @@ document.addEventListener('DOMContentLoaded', function () {
     form.addEventListener('submit', async (e) => {
         e.preventDefault();
 
-        const emailInput = document.getElementById('email');
-        const email = emailInput.value.trim();
+        const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
 
-
-        if (!isValidEmail(email)) {
-            alert("Vul een geldig e-mailadres in.");
-            emailInput.focus();
-            return;
+        if (!hCaptcha) {
+            e.preventDefault();
+            alert("Please fill out captcha field")
+            return
         }
 
         const formData = new FormData(form);
@@ -238,17 +236,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
         } catch (error) {
             alert("Something went wrong. Please try again.");
-        }
-    });
-
-    form.addEventListener('submit', function (e) {
-
-        const hCaptcha = form.querySelector('textarea[name=h-captcha-response]').value;
-
-        if (!hCaptcha) {
-            e.preventDefault();
-            alert("Please fill out captcha field")
-            return
         }
     });
 
