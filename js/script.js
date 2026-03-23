@@ -126,6 +126,12 @@ document.addEventListener('DOMContentLoaded', function () {
         lastMouseOffsetY = deltaY * 50;
 
         updateBackground();
+
+        const cursor = document.querySelector('.cursor');
+        if (cursor) {
+            cursor.style.top = `${y}px`;
+            cursor.style.left = `${x}px`;
+        }
     });
 
     const projectsBtn = document.getElementById('projects-btn');
