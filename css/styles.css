@@ -1067,7 +1067,7 @@ header .heading.links .dashed-wrapper:hover {
     animation: move-dash-vertical 0.5s linear infinite;
 }
 
-@media (max-height: 600px) {
+/* @media (max-height: 600px) {
     .contact {
         gap: 50px;
     }
@@ -1113,7 +1113,7 @@ header .heading.links .dashed-wrapper:hover {
         grid-area: captcha;
         width: fit-content;
     }
-}
+} */
 
 @keyframes checkmarkAnimation {
     from {
