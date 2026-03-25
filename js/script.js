@@ -291,6 +291,7 @@ document.addEventListener('DOMContentLoaded', function () {
     observer.observe(contactSection);
 
     const cursor = document.querySelector('.cursor');
+    const buttons = document.querySelectorAll('button');
     const links = document.querySelectorAll('a');
 
     links.forEach(link => {
@@ -302,5 +303,20 @@ document.addEventListener('DOMContentLoaded', function () {
             cursor.classList.remove('hover');
         });
     });
+    buttons.forEach(button => {
+        button.addEventListener('mouseenter', () => {
+            cursor.classList.add('hover');
+        });
+
+        button.addEventListener('mouseleave', () => {
+            cursor.classList.remove('hover');
+        });
+    });
+
+    const scale = window.devicePixelRatio;
+    if (scale !== 1) {
+        console.log("Windows scaling is actief: " + scale);
+        // Voeg eventueel een class toe aan de body om css aan te passen
+    }
 
 });

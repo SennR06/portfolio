@@ -65,7 +65,7 @@ body.up {
 
 .cursor.hover,
 .cursor.hover {
-    transform: translate(1px, -1px) scale(0.8) rotate(90deg);
+    transform: translate(-50%, -50%) scale(0.4) rotate(90deg);
 }
 
 main {
@@ -866,7 +866,7 @@ header .heading.links .dashed-wrapper:hover {
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 10px;
-    width: max-content;
+    width: auto;
 }
 
 .contact form #message,
@@ -1030,7 +1030,7 @@ header .heading.links .dashed-wrapper:hover {
     border: 3px solid var(--primary-color);
     overflow: hidden;
     grid-column: span 2;
-    width: fit-content;
+    width: auto;
 }
 
 .captcha-header {
@@ -1068,13 +1068,21 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 @media (max-height: 600px) {
+    .contact {
+        gap: 50px;
+    }
     .contact form {
+        width: max-content;
         grid-template-columns: auto;
         grid-template-areas:
             "first last captcha"
             "email company captcha"
             "message message captcha"
             "button button button";
+    }
+    .contact form::before {
+        left: -15px;
+        width: 105%;
     }
 
     .contact form #first-name {
@@ -1103,6 +1111,7 @@ header .heading.links .dashed-wrapper:hover {
 
     .contact form .captcha-wrapper {
         grid-area: captcha;
+        width: fit-content;
     }
 }
 
