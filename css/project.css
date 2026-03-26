@@ -1,3 +1,78 @@
+header {
+    padding: 25px;
+    transform: translate(0);
+    width: 100%;
+    box-sizing: border-box;
+}
+header nav {
+    gap: 0 !important;
+    justify-content: space-between;
+    width: 100%;
+    box-sizing: border-box;
+}
+header nav #back-btn-header {
+    position: relative;
+    background-color: transparent;
+    color: var(--primary-color);
+}
+header nav #back-btn-header::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 140%;
+    height: 10px;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--primary-color),
+            var(--primary-color) 3px,
+            transparent 1px,
+            transparent 6px);
+    background-repeat: repeat;
+    transform: translateX(-50%);
+    transition: all 0.3s linear;
+}
+header nav #back-btn-header:hover::after {
+    animation: backBtnAfter 0.8s linear infinite;
+}
+@keyframes backBtnAfter {
+    0% {
+        background-position: 0 0;
+    }
+    100% {
+        background-position: 17px 0; /* of 6px, afhankelijk van je patroon */
+    }
+}
+
+
+body.project-page main {
+    width: 100%;
+    padding: 85px 185px 100px 185px;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+body.project-page main h3 {
+    font-size: 6rem;
+    line-height: normal;
+    color: var(--primary-color);
+}
+body.project-page main p {
+    font-size: 1rem;
+    line-height: normal;
+    color: var(--primary-color);
+    max-width: 650px;
+    margin-bottom: 50px;
+}
+body.project-page img {
+    width: 60%;
+    align-self: end;
+    margin-bottom: 100px;
+}
+
+
 footer {
     position: fixed;
     bottom: 0;
@@ -24,6 +99,7 @@ footer .left img {
     width: 250px;
     height: 100%;
     object-fit: cover;
+    margin: 0;
 }
 footer .left h3 {
     font-size: 1.5rem;
@@ -48,4 +124,13 @@ footer .right a {
     background-color: var(--white);
     align-items: center;
     padding: 10px 32px;
+}
+footer .right a svg {
+    transition: transform 0.3s ease;
+}
+footer .right a:hover svg {
+    transform: translateX(5px);
+}
+footer .right a:nth-child(1):hover svg {
+    transform: translateX(-5px);
 }

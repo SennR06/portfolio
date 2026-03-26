@@ -5,6 +5,7 @@
     --background-color: #E4E9FF;
     --black: #000000;
     --white: #FFFFFF;
+    --warning-color: #FFCC00;
 }
 
 * {
@@ -287,7 +288,7 @@ header .heading.links .dashed-wrapper:hover {
     pointer-events: none;
 }
 
-.heading.links a:hover {
+.heading.links a:hover:not(#back-btn-header) {
     transform: rotateX(10deg) rotateY(-10deg) translate(7px, -7px);
     scale: 1.05;
 }
@@ -1194,4 +1195,74 @@ header .heading.links .dashed-wrapper:hover {
 
 #section-scroll-container::-webkit-scrollbar {
     display: none;
+}
+
+.minimum-width-warning {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: var(--background-color);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 50px 50px;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    transform: rotateX(60deg) translateY(-100%);
+    transition: transform 0.5s ease-out;
+    transform-origin: top;
+    overflow: hidden;
+    box-shadow: #2C52E5 0 0 15px 0;
+}
+
+.minimum-width-warning h3,
+.minimum-width-warning p {
+    text-align: center;
+    max-width: clamp(300px, 80vw, 600px);
+    color: var(--primary-color);
+}
+
+.minimum-width-warning .tape {
+    width: 200vw;
+    height: 20px;
+    position: absolute;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--warning-color),
+            var(--warning-color) 3px,
+            var(--black) 1px,
+            var(--black) 6px);
+    background-repeat: repeat;
+    animation: tapeAnimation 1s linear infinite;
+}
+.minimum-width-warning .tape.one {
+    top: 0;
+    left: -50%;
+    transform: rotate(30deg);
+}
+.minimum-width-warning .tape.two {
+    top: 90%;
+    left: -50%;
+    transform: rotate(-8deg);
+}
+.minimum-width-warning .tape.three {
+    top: 70%;
+    left: -10%;
+    transform: rotate(110deg);
+}
+.minimum-width-warning .tape.four {
+    top: 50%;
+    left: -100%;
+    transform: rotate(-80deg);
+}
+
+@media (max-width: 1185px) {
+    .minimum-width-warning {
+        transform: rotateX(0deg) translateY(0);
+    }
 }
