@@ -32,3 +32,13 @@ buttons.forEach(button => {
         cursor.classList.remove('hover');
     });
 });
+
+window.addEventListener('mousemove', () => {
+  cursor.style.display = 'block';
+});
+
+window.addEventListener('mouseout', (event) => {
+  if (!event.relatedTarget && !event.toElement) {
+    cursor.style.display = 'none';
+  }
+});

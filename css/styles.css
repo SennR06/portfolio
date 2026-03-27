@@ -1207,14 +1207,14 @@ header .heading.links .dashed-wrapper:hover {
     background-image:
         linear-gradient(var(--grid-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 50px 50px;
+    background-size: 55px 55px;
     z-index: 999;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     gap: 10px;
-    transform: rotateX(60deg) translateY(-100%);
+    transform: translateY(-100%);
     transition: transform 0.5s ease-out;
     transform-origin: top;
     overflow: hidden;
@@ -1234,9 +1234,9 @@ header .heading.links .dashed-wrapper:hover {
     position: absolute;
     background-image: repeating-linear-gradient(-45deg,
             var(--warning-color),
-            var(--warning-color) 3px,
-            var(--black) 1px,
-            var(--black) 6px);
+            var(--warning-color) 6px,
+            var(--black) 2px,
+            var(--black) 12px);
     background-repeat: repeat;
     animation: tapeAnimation 1s linear infinite;
 }
@@ -1261,8 +1261,45 @@ header .heading.links .dashed-wrapper:hover {
     transform: rotate(-80deg);
 }
 
+.minimum-width-warning h4 {
+    color: var(--primary-color);
+    font-weight: bold;
+    margin-top: 25px;
+}
+
+.minimum-width-warning .socials {
+    display: flex;
+    gap: 10px;
+}
+.minimum-width-warning .socials .svg-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--primary-color);
+    width: 50px;
+    height: 50px;
+    box-sizing: border-box;
+    transition: all .3s ease;
+}
+.minimum-width-warning .socials .svg-container svg {
+    transition: all .3s ease;
+}
+
+.minimum-width-warning .socials .svg-container:hover {
+    transform: rotate(90deg) scale(0.8);
+}
+.minimum-width-warning .socials .svg-container:hover svg {
+    transform: rotate(-90deg);
+}
+
 @media (max-width: 1185px) {
     .minimum-width-warning {
-        transform: rotateX(0deg) translateY(0);
+        transform:  translateY(0);
     }
+}
+
+@media (pointer: coarse) and (hover: none) {
+  .custom-cursor {
+    display: none;
+  }
 }

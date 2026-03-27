@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
         updateBackground();
     });
 
-    // Background bewegen op basis van muis (zoals in je originele script)
+    // Background bewegen op basis van muis
     document.addEventListener('mousemove', (e) => {
         const x = e.clientX;
         const y = e.clientY;

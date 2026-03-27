@@ -68,8 +68,17 @@ body.project-page main p {
 }
 body.project-page img {
     width: 60%;
+    max-height: 350px;
+    object-fit: cover;
     align-self: end;
     margin-bottom: 100px;
+}
+body.project-page img.full-width {
+    width: 100%;
+    align-self: center;
+}
+body.project-page img.left-aligned {
+    align-self: start;
 }
 
 
