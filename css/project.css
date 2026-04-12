@@ -45,6 +45,7 @@ header nav #back-btn-header:hover::after {
 
 
 body.project-page main {
+    position: relative;
     width: 100%;
     padding: 85px 185px 100px 185px;
     box-sizing: border-box;
@@ -72,6 +73,7 @@ body.project-page img {
     object-fit: cover;
     align-self: end;
     margin-bottom: 100px;
+    box-shadow: 0 0 35px var(--grid-color);
 }
 body.project-page img.full-width {
     width: 100%;
@@ -79,6 +81,50 @@ body.project-page img.full-width {
 }
 body.project-page img.left-aligned {
     align-self: start;
+}
+
+.lables {
+    position: absolute;
+    top: 85px;
+    right: 185px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 25px;
+    width: fit-content;
+}
+.lables::before {
+        content: "";
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size:
+        15px 1px,
+        1px 15px,
+        15px 1px,
+        1px 15px;
+    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+    background-position:
+        0 0,
+        100% 0,
+        0 100%,
+        0 0;
+}
+
+.lables li {
+    font-family: Outfit, sans-serif;
+    color: var(--primary-color);
+    font-weight: 200;
+}
+.lables li span {
+    font-weight: bold;
+    text-transform: uppercase;
 }
 
 
@@ -122,24 +168,117 @@ footer .left h4 {
 footer .right {
     display: flex;
     gap: 25px;
-    padding-right: 10px;
+    height: 100%;
+    box-sizing: border-box;
 }
 footer .right a {
+    position: relative;
     display: flex;
-    gap: 5px;
+    gap: 10px;
     color: var(--primary-color);
     font-size: 0.75rem;
     font-weight: bold;
     background-color: var(--white);
     align-items: center;
     padding: 10px 32px;
+    height: 100%;
+    box-sizing: border-box;
+    overflow: hidden;
 }
-footer .right a svg {
-    transition: transform 0.3s ease;
-}
+
 footer .right a:hover svg {
-    transform: translateX(5px);
+    transition: .4s ease;
+    transform: translate(60px, -60px);
 }
-footer .right a:nth-child(1):hover svg {
-    transform: translateX(-5px);
+footer .right a svg:nth-child(2) {
+    position: absolute;
+    right: 32px;
+    transform: translate(-60px, 60px);
+}
+
+footer .right a:hover svg:nth-child(2) {
+    transform: translate(0, 0);
+}
+
+
+/* Fixed bar container */
+.next-project-bar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 64px;
+  border-top: 1px solid #000;
+  background-color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Inter", sans-serif;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  z-index: 50;
+
+  /* hidden by default */
+  transform: translateY(100%);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.19, 1, 0.22, 1),
+              opacity 0.4s ease;
+}
+
+/* show state */
+.next-project-bar.is-visible {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+.next-project-left {
+  flex: 0 0 auto;
+}
+
+.next-project-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* "Scroll down ↓" */
+.next-project-scroll-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.next-project-arrow {
+  display: inline-block;
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.next-project-bar:hover .next-project-arrow {
+  transform: translateY(2px);
+}
+
+/* Progress bar */
+.next-project-progress {
+  width: 140px;
+  height: 4px;
+  border: 1px solid #000;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.next-project-progress-fill {
+  height: 100%;
+  width: 0%;
+  background-color: #000;
+  transition: width 0.15s linear;
+}
+
+/* Optional: make whole bar clickable */
+.next-project-hit-area {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
 }

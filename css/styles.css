@@ -397,7 +397,7 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .projects.up .project.one {
-    margin-top: 360px;
+    margin-top: 55vh;
 }
 
 .project.two {
@@ -405,7 +405,7 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .projects.up .project.two {
-    margin-top: 430px;
+    margin-top: 65vh;
 }
 
 .project.three {
@@ -413,20 +413,13 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .projects.up .project.three {
-    margin-top: 390px;
-}
-
-.project.four {
-    margin-top: 260px;
-}
-
-.projects.up .project.four {
-    margin-top: 440px;
+    margin-top: 55vh;
 }
 
 .project img {
-    height: 50vh;
-    aspect-ratio: 23/20;
+    height: 45vh;
+    max-height: 500px;
+    aspect-ratio: 3/2;
     object-fit: cover;
 }
 
@@ -443,6 +436,7 @@ header .heading.links .dashed-wrapper:hover {
 .project .txt-btn-grp {
     display: flex;
     gap: 25px;
+    justify-content: space-between;
 }
 
 .project .txt-btn-grp a {
@@ -451,7 +445,8 @@ header .heading.links .dashed-wrapper:hover {
     justify-content: center;
     align-items: center;
     width: 140px;
-    height: 158px;
+    min-height: 158px;
+    height: auto;
     background: var(--secondary-color);
     box-shadow: 0 0 15px 0 rgba(0, 0, 0, 0.30);
     padding: 0;
@@ -465,13 +460,13 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .project .txt-btn-grp a:hover svg {
-    transform: translate(80px, -80px);
+    transform: translate(100px, -100px);
     transition: .3s ease;
 }
 
 .project .txt-btn-grp a svg:nth-child(2) {
     position: absolute;
-    transform: translate(-80px, 80px);
+    transform: translate(-100px, 100px);
 }
 
 .project .txt-btn-grp a:hover svg:nth-child(2) {
@@ -752,10 +747,14 @@ header .heading.links .dashed-wrapper:hover {
     opacity: 1;
 }
 
-.about-me img.right {
+/* .about-me img.right {
     height: 80vh;
     width: auto;
-}
+} */
+ .about-me .right {
+    height: 80vh;
+    width: 300px;
+ }
 
 .line {
     display: flex;

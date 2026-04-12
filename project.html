@@ -56,12 +56,20 @@
             pellentesque nibh nibh, at maximus ante fermentum sit amet. Pellentesque commodo lacus at sodales sodales.
             Quisque sagittis orci ut diam condimentum, vel euismod erat placerat. In iaculis arcu eros, eget tempus orci
             facilisis id. Praesent lorem orci, mattis non efficitur id, ultricies vel nibh.</p>
-            <img src="img/placeholder-project" alt="placeholder">
-            <h3>CHALLENGES</h3>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna. Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis tellus.</p>
-            <img class="full-width" src="img/placeholder-project" alt="placeholder">
-            <img src="img/placeholder-project" alt="placeholder">
-            <img src="img/placeholder-project" alt="placeholder" class="left-aligned">
+        <img src="img/placeholder-project" alt="placeholder">
+        <h3>CHALLENGES</h3>
+        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut et massa mi. Aliquam in hendrerit urna.
+            Pellentesque sit amet sapien fringilla, mattis ligula consectetur, ultrices mauris. Maecenas vitae mattis
+            tellus.</p>
+        <img class="full-width" src="img/placeholder-project" alt="placeholder">
+        <img src="img/placeholder-project" alt="placeholder">
+        <img src="img/placeholder-project" alt="placeholder" class="left-aligned">
+        <ul class="lables">
+            <li><span>workflow</span> in team</li>
+            <li><span>type project</span> school project</li>
+            <li><span>year</span> 2026</li>
+            <li><span>client</span> none (fiction)</li>
+        </ul>
     </main>
     <footer>
         <div class="left">
@@ -72,18 +80,17 @@
             </div>
         </div>
         <nav class="right">
-            <a href="#" class="previous">
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                    <path d="M7.81217 18.75V6.25H5.72884V18.75H7.81217ZM19.2705 18.75V6.25L9.89551 12.5L19.2705 18.75Z"
-                        fill="#2C52E5" />
+            <a href="#" class="visit-project">
+                visit project
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path
+                        d="M9.0801 0.399626V8.98987L8.88054 8.98918H7.77016L7.77085 8.78961V2.43808L1.21078 8.99815L0.282702 8.07008L6.84416 1.50862L0.490553 1.49412H0.290298L0.290989 1.29456V0.399626L0.290298 0.200061H9.0808L9.0801 0.399626Z"
+                        fill="#2C52E5" stroke="#2C52E5" stroke-width="0.4" />
                 </svg>
-                PREVIOUS
-            </a>
-            <a href="#" class="next">
-                NEXT
-                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" viewBox="0 0 25 25" fill="none">
-                    <path d="M17.1878 18.75V6.25H19.2712V18.75H17.1878ZM5.72949 18.75V6.25L15.1045 12.5L5.72949 18.75Z"
-                        fill="#2C52E5" />
+                <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
+                    <path
+                        d="M9.0801 0.399626V8.98987L8.88054 8.98918H7.77016L7.77085 8.78961V2.43808L1.21078 8.99815L0.282702 8.07008L6.84416 1.50862L0.490553 1.49412H0.290298L0.290989 1.29456V0.399626L0.290298 0.200061H9.0808L9.0801 0.399626Z"
+                        fill="#2C52E5" stroke="#2C52E5" stroke-width="0.4" />
                 </svg>
             </a>
         </nav>
@@ -97,6 +104,72 @@
         <div class="tape three"></div>
         <div class="tape four"></div>
     </div>
+    <div class="next-project-bar" id="nextProjectBar">
+        <div class="next-project-left">
+            <span class="next-project-label">Next project</span>
+        </div>
+        <div class="next-project-right">
+            <span class="next-project-scroll-text">
+                Scroll down
+                <span class="next-project-arrow">↓</span>
+            </span>
+            <div class="next-project-progress">
+                <div class="next-project-progress-fill" id="nextProjectProgress"></div>
+            </div>
+        </div>
+        <script>
+            document.addEventListener("DOMContentLoaded", () => {
+                const bar = document.getElementById("nextProjectBar");
+                const progress = document.getElementById("nextProjectProgress");
+
+                // Adjust where the bar starts to appear (0.0–1.0)
+                const SHOW_FROM = 0.1;
+
+                function updateNextProjectBar() {
+                    const scrollTop = window.scrollY || window.pageYOffset;
+                    const docHeight = document.documentElement.scrollHeight;
+                    const winHeight = window.innerHeight;
+                    const maxScroll = docHeight - winHeight;
+
+                    if (maxScroll <= 0) {
+                        // Page too short, just hide bar
+                        bar.classList.remove("is-visible");
+                        return;
+                    }
+
+                    const scrollRatio = scrollTop / maxScroll; // 0..1
+
+                    // Show bar after SHOW_FROM
+                    if (scrollRatio >= SHOW_FROM) {
+                        bar.classList.add("is-visible");
+                    } else {
+                        bar.classList.remove("is-visible");
+                    }
+
+                    // Map [SHOW_FROM, 1] → [0, 100] for the progress bar
+                    let progressRatio = (scrollRatio - SHOW_FROM) / (1 - SHOW_FROM);
+                    progressRatio = Math.max(0, Math.min(1, progressRatio));
+
+                    progress.style.width = (progressRatio * 100).toFixed(2) + "%";
+                }
+
+                // Update on scroll and on resize
+                window.addEventListener("scroll", updateNextProjectBar, { passive: true });
+                window.addEventListener("resize", updateNextProjectBar);
+                updateNextProjectBar();
+
+                // Click behaviour: scroll to next project section
+                bar.addEventListener("click", (event) => {
+                    // If you use the <a> version with href, you can remove this handler.
+                    const nextProject = document.getElementById("project-2");
+                    if (nextProject) {
+                        event.preventDefault();
+                        nextProject.scrollIntoView({ behavior: "smooth" });
+                    }
+                });
+            });
+        </script>
+
 </body>
 
 </html>
