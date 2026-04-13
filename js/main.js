@@ -6,6 +6,7 @@ let mouse;          // NDC (-1..1)
 let mouseWorld;     // 3D punt onder cursor
 let raycaster;
 let interactionPlane;
+const localMouse = new THREE.Vector3();
 
 const _projVec = new THREE.Vector3(); // mag blijven, wordt straks niet meer gebruikt
 
@@ -28,7 +29,6 @@ function init() {
         return;
     }
 
-    // Scene zonder vaste achtergrondkleur (canvas wordt transparant)
     scene = new THREE.Scene();
 
     const aspect = container.clientWidth / container.clientHeight;
@@ -36,11 +36,10 @@ function init() {
     camera.position.set(0, 0, 3);
     camera.lookAt(0, 0, 0);
 
-    // Renderer met alpha, zodat achtergrond transparant is
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-    renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setClearColor(0x000000, 0); // volledig transparant
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
     const light = new THREE.DirectionalLight(0x2c52e5, 1);
@@ -48,8 +47,12 @@ function init() {
     scene.add(light);
 
     interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
+
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
+
+    // size & aspect direct syncen
+    onWindowResize();
 
     loadObjPointCloud();
 }
@@ -57,27 +60,26 @@ function init() {
 function onWindowResize() {
     const container = document.getElementById('app');
     if (!container || !camera || !renderer) return;
+
     camera.aspect = container.clientWidth / container.clientHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(container.clientWidth, container.clientHeight);
 }
 
 function onMouseMove(event) {
-  if (!renderer || !camera) return;
+    if (!renderer || !camera) return;
 
-  const rect = renderer.domElement.getBoundingClientRect();
+    const canvas = renderer.domElement;
+    const rect = canvas.getBoundingClientRect();
 
-  // Muis in NDC t.o.v. canvas
-  mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
-  mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
+    // Muis -> NDC gebaseerd op daadwerkelijke canvas-pixels
+    mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
-  // Ray van camera door cursor
-  raycaster.setFromCamera(mouse, camera);
-  // snij met Z=0 vlak
-  raycaster.ray.intersectPlane(interactionPlane, mouseWorld);
+    raycaster.setFromCamera(mouse, camera);
+    raycaster.ray.intersectPlane(interactionPlane, mouseWorld);
 
-  // zorg dat de sphere altijd op vaste diepte staat
-  mouseWorld.z = 0;  // vaste Z (past bij gecentreerde geometrië)
+    mouseWorld.z = 0;
 }
 
 function loadObjPointCloud() {
@@ -175,11 +177,11 @@ function loadObjPointCloud() {
             points.scale.multiplyScalar(1.2);
 
             // 3) 90 graden draaien zodat je naar voren kijkt
-            // als het nu naar rechts (positieve X) kijkt, draai het rond Y-as:
-            points.rotation.y = -Math.PI / 2; // of +Math.PI / 2 proberen als het de andere kant op staat
+            points.rotation.y = -Math.PI / 2;
 
             scene.add(points);
             console.log('OBJ point cloud loaded with', vertexCount, 'points');
+
         },
         undefined,
         (error) => {
@@ -201,58 +203,64 @@ function animate() {
 }
 
 function updatePoints() {
-  const geometry = points.geometry;
-  const positions = geometry.attributes.position.array;
-  const original = geometry.attributes.originalPosition.array;
+    if (!points) return;
 
-  // Kies een radius die iets groter is dan de "dikte" van je model
-  const radius = 2;        // experiment: 0.5–1.0
-  const forceStrength = 0.15;
-  const returnSpeed = 0.06;
+    const geometry = points.geometry;
+    const positions = geometry.attributes.position.array;
+    const original = geometry.attributes.originalPosition.array;
 
-  const cx = mouseWorld.x;
-  const cy = mouseWorld.y;
-  const cz = 0;              // vaste diepte van de sphere
+    // Radius/kracht kun je nog finetunen
+    const radius = 1.5;
+    const forceStrength = 0.8;
+    const returnSpeed = 0.02;
 
-  for (let i = 0; i < positions.length; i += 3) {
-    const ox = original[i];
-    const oy = original[i + 1];
-    const oz = original[i + 2];
+    // 1) zet wereld-positie van de cursor om naar local space van points
+    localMouse.copy(mouseWorld);
+    points.worldToLocal(localMouse);
 
-    let x = positions[i];
-    let y = positions[i + 1];
-    let z = positions[i + 2];
+    const cx = localMouse.x;
+    const cy = localMouse.y;
+    const cz = localMouse.z; // meestal ~0
 
-    // afstand tot de vaste bol-center
-    const dx = x - cx;
-    const dy = y - cy;
-    const dz = z - cz;
-    const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+    for (let i = 0; i < positions.length; i += 3) {
+        const ox = original[i];
+        const oy = original[i + 1];
+        const oz = original[i + 2];
 
-    if (dist < radius) {
-      const t = (radius - dist) / radius; // 0..1
-      const strength = forceStrength * t;
+        let x = positions[i];
+        let y = positions[i + 1];
+        let z = positions[i + 2];
 
-      const invDist = dist || 1;
-      const nx = dx / invDist;
-      const ny = dy / invDist;
-      const nz = dz / invDist;
+        // 2) afstand in lokale ruimte van het model
+        const dx = x - cx;
+        const dy = y - cy;
+        const dz = z - cz;
+        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
 
-      // radiale duw rond de bol
-      x += nx * strength;
-      y += ny * strength;
-      z += nz * strength;
-    } else {
-      // rustig terug naar originele positie
-      x += (ox - x) * returnSpeed;
-      y += (oy - y) * returnSpeed;
-      z += (oz - z) * returnSpeed;
+        if (dist < radius) {
+            const t = (radius - dist) / radius; // 0..1 binnen de bol
+            const strength = forceStrength * t;
+
+            const invDist = dist || 1;
+            const nx = dx / invDist;
+            const ny = dy / invDist;
+            const nz = dz / invDist;
+
+            // radiale duw rondom de bol (nog steeds in local space)
+            x += nx * strength;
+            y += ny * strength;
+            z += nz * strength;
+        } else {
+            // rustig terug naar originele positie (ook in local space)
+            x += (ox - x) * returnSpeed;
+            y += (oy - y) * returnSpeed;
+            z += (oz - z) * returnSpeed;
+        }
+
+        positions[i]     = x;
+        positions[i + 1] = y;
+        positions[i + 2] = z;
     }
 
-    positions[i]     = x;
-    positions[i + 1] = y;
-    positions[i + 2] = z;
-  }
-
-  geometry.attributes.position.needsUpdate = true;
+    geometry.attributes.position.needsUpdate = true;
 }

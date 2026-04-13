@@ -751,10 +751,16 @@ header .heading.links .dashed-wrapper:hover {
     height: 80vh;
     width: auto;
 } */
- .about-me .right {
+.about-me .right {
     height: 80vh;
     width: 300px;
- }
+}
+
+.about-me .right canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
 
 .line {
     display: flex;
@@ -1239,21 +1245,25 @@ header .heading.links .dashed-wrapper:hover {
     background-repeat: repeat;
     animation: tapeAnimation 1s linear infinite;
 }
+
 .minimum-width-warning .tape.one {
     top: 0;
     left: -50%;
     transform: rotate(30deg);
 }
+
 .minimum-width-warning .tape.two {
     top: 90%;
     left: -50%;
     transform: rotate(-8deg);
 }
+
 .minimum-width-warning .tape.three {
     top: 70%;
     left: -10%;
     transform: rotate(110deg);
 }
+
 .minimum-width-warning .tape.four {
     top: 50%;
     left: -100%;
@@ -1270,6 +1280,7 @@ header .heading.links .dashed-wrapper:hover {
     display: flex;
     gap: 10px;
 }
+
 .minimum-width-warning .socials .svg-container {
     display: flex;
     align-items: center;
@@ -1280,6 +1291,7 @@ header .heading.links .dashed-wrapper:hover {
     box-sizing: border-box;
     transition: all .3s ease;
 }
+
 .minimum-width-warning .socials .svg-container svg {
     transition: all .3s ease;
 }
@@ -1287,18 +1299,19 @@ header .heading.links .dashed-wrapper:hover {
 .minimum-width-warning .socials .svg-container:hover {
     transform: rotate(90deg) scale(0.8);
 }
+
 .minimum-width-warning .socials .svg-container:hover svg {
     transform: rotate(-90deg);
 }
 
 @media (max-width: 1185px) {
     .minimum-width-warning {
-        transform:  translateY(0);
+        transform: translateY(0);
     }
 }
 
 @media (pointer: coarse) and (hover: none) {
-  .custom-cursor {
-    display: none;
-  }
+    .custom-cursor {
+        display: none;
+    }
 }
