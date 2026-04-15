@@ -1,14 +1,15 @@
 // js/main.js
 
+import * as THREE from './three.module.js';
+import { OBJLoader } from './OBJloader.js';
+
 let scene, camera, renderer;
 let points;
 let mouse;          // NDC (-1..1)
-let mouseWorld;     // 3D punt onder cursor
+let mouseWorld;     // 3D punt onder cursor in wereldruimte
 let raycaster;
 let interactionPlane;
 const localMouse = new THREE.Vector3();
-
-const _projVec = new THREE.Vector3(); // mag blijven, wordt straks niet meer gebruikt
 
 window.addEventListener('load', () => {
     console.log('window loaded, THREE is:', typeof THREE);
@@ -39,21 +40,20 @@ function init() {
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
     renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setClearColor(0x000000, 0);
+    renderer.setClearColor(0x000000, 0); // transparante achtergrond
     container.appendChild(renderer.domElement);
 
     const light = new THREE.DirectionalLight(0x2c52e5, 1);
     light.position.set(1, 1, 1);
     scene.add(light);
 
+    // vlak Z=0 voor muis-intersectie
     interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 
     window.addEventListener('resize', onWindowResize);
     window.addEventListener('mousemove', onMouseMove);
 
-    // size & aspect direct syncen
     onWindowResize();
-
     loadObjPointCloud();
 }
 
@@ -72,7 +72,7 @@ function onMouseMove(event) {
     const canvas = renderer.domElement;
     const rect = canvas.getBoundingClientRect();
 
-    // Muis -> NDC gebaseerd op daadwerkelijke canvas-pixels
+    // Muis -> NDC op basis van daadwerkelijke canvas-pixels
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
@@ -82,13 +82,11 @@ function onMouseMove(event) {
     mouseWorld.z = 0;
 }
 
-function loadObjPointCloud() {
-    if (!THREE.OBJLoader) {
-        console.error('OBJLoader not found. Check script tags in index.html');
-        return;
-    }
+const lightMapTexture = new THREE.TextureLoader().load('../img/senn.jpg');
+lightMapTexture.colorSpace = THREE.SRGBColorSpace;
 
-    const loader = new THREE.OBJLoader();
+function loadObjPointCloud() {
+    const loader = new OBJLoader();
     console.log('Loading OBJ…');
 
     loader.load(
@@ -108,6 +106,7 @@ function loadObjPointCloud() {
                 return;
             }
 
+            // Zorg dat we UV's uit de geometry krijgen
             const baseGeometry = mesh.geometry;
             const geometryNonIndexed = baseGeometry.index
                 ? baseGeometry.toNonIndexed()
@@ -117,6 +116,13 @@ function loadObjPointCloud() {
             if (!posAttr) {
                 console.error('No position attribute on geometry.');
                 return;
+            }
+
+            const uvAttr = geometryNonIndexed.getAttribute('uv');
+            if (!uvAttr) {
+                console.warn('No UV attribute on geometry. Check your OBJ export + OBJLoader.');
+            } else {
+                console.log('UV attribute found with count:', uvAttr.count);
             }
 
             const vertexCount = posAttr.count;
@@ -149,6 +155,17 @@ function loadObjPointCloud() {
                 new THREE.BufferAttribute(originalPositions, 3)
             );
 
+            // UV's kopiëren als ze bestaan
+            if (uvAttr) {
+                const uvs = new Float32Array(vertexCount * 2);
+                for (let i = 0; i < vertexCount; i++) {
+                    uvs[i * 2] = uvAttr.getX(i);
+                    uvs[i * 2 + 1] = uvAttr.getY(i);
+                }
+                pointsGeometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
+            }
+
+            // centreer model rond (0,0,0)
             pointsGeometry.center();
             const box = new THREE.Box3().setFromBufferAttribute(
                 pointsGeometry.getAttribute('position')
@@ -159,29 +176,88 @@ function loadObjPointCloud() {
             const targetSize = 1.5;
             const uniformScale = targetSize / maxDim;
 
-            points = new THREE.Points(
-                pointsGeometry,
-                new THREE.PointsMaterial({
-                    size: 0.025,
-                    color: 0x2c52e5,
-                    sizeAttenuation: true,
-                    transparent: true,
-                    opacity: 0.4
-                })
-            );
+            // ShaderMaterial dat UV's gebruikt voor licht / schaduw
+            const pointsMaterial = new THREE.ShaderMaterial({
+                uniforms: {
+                    uHighlightStrength: { value: 0.2 },
+                    uShadowStrength: { value: 0.8 },
+                    uPointSize: { value: 0.08 },
+                    uLightMap: { value: lightMapTexture }
+                },
+                vertexShader: `
+                    uniform float uPointSize;
+                    varying vec2 vUv;
 
-            // 1) basis-schaal zoals eerder
+                    void main() {
+                        vUv = uv;
+                        vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
+                        gl_Position = projectionMatrix * mvPosition;
+                        gl_PointSize = uPointSize * (150.0 / -mvPosition.z);
+                    }
+                `,
+                fragmentShader: `
+                    varying vec2 vUv;
+                    uniform float uHighlightStrength;
+                    uniform float uShadowStrength;
+                    uniform sampler2D uLightMap;
+
+                    // simpele noise-functie voor subtiel geflikker
+                    float rand(vec2 co) {
+                        return fract(sin(dot(co, vec2(12.9898,78.233))) * 43758.5453);
+                    }
+
+                    void main() {
+                        vec2 p = gl_PointCoord - 0.5;
+                        float r = length(p);
+                        if (r > 0.5) discard; // ronde punten
+
+                        // kleur uit texture (foto)
+                        vec3 texColor = texture2D(uLightMap, vUv).rgb;
+
+                        // exposure / brightness boost
+                        float exposure = 1.8;
+                        texColor = clamp(texColor * exposure, 0.0, 1.0);
+
+                        // brightness uit texture zelf (na exposure)
+                        float brightness = dot(texColor, vec3(0.299, 0.587, 0.114));
+
+                        float contrast = (brightness - 0.5) * 2.0; // -1..1
+
+                        float lightFactor;
+                        if (contrast > 0.0) {
+                            lightFactor = mix(1.0, uHighlightStrength, contrast);
+                        } else {
+                            lightFactor = mix(uShadowStrength, 1.0, contrast + 1.0);
+                        }
+
+                        // radiale falloff binnen de cirkel -> glow in het midden
+                        float falloff = smoothstep(0.5, 0.0, r);
+
+                        // klein beetje random jitter per punt
+                        float n = rand(vUv * 50.0);
+                        lightFactor *= 0.9 + 0.2 * n;
+
+                        vec3 finalColor = texColor * lightFactor * falloff;
+
+                        gl_FragColor = vec4(finalColor, 1.0);
+                    }
+                `,
+                transparent: true,
+                depthWrite: false,
+                blending: THREE.AdditiveBlending
+            });
+
+
+
+            points = new THREE.Points(pointsGeometry, pointsMaterial);
+
+            // schaal en rotatie
             points.scale.set(uniformScale, uniformScale, uniformScale);
-
-            // 2) extra 1.2x groter maken
             points.scale.multiplyScalar(1.2);
-
-            // 3) 90 graden draaien zodat je naar voren kijkt
             points.rotation.y = -Math.PI / 2;
 
             scene.add(points);
             console.log('OBJ point cloud loaded with', vertexCount, 'points');
-
         },
         undefined,
         (error) => {
@@ -209,18 +285,18 @@ function updatePoints() {
     const positions = geometry.attributes.position.array;
     const original = geometry.attributes.originalPosition.array;
 
-    // Radius/kracht kun je nog finetunen
-    const radius = 1.5;
-    const forceStrength = 0.8;
-    const returnSpeed = 0.02;
+    // Interactie
+    const radius = 1.8;  // grootte van de “bubble”
+    const forceStrength = 0.6;  // hoe hard de duw is
+    const returnSpeed = 0.05; // hoe snel punten terugveren
 
-    // 1) zet wereld-positie van de cursor om naar local space van points
+    // cursor naar lokale ruimte van points
     localMouse.copy(mouseWorld);
     points.worldToLocal(localMouse);
 
     const cx = localMouse.x;
     const cy = localMouse.y;
-    const cz = localMouse.z; // meestal ~0
+    const cz = localMouse.z; // ~0
 
     for (let i = 0; i < positions.length; i += 3) {
         const ox = original[i];
@@ -231,14 +307,15 @@ function updatePoints() {
         let y = positions[i + 1];
         let z = positions[i + 2];
 
-        // 2) afstand in lokale ruimte van het model
         const dx = x - cx;
         const dy = y - cy;
         const dz = z - cz;
-        const dist = Math.sqrt(dx * dx + dy * dy + dz * dz);
+        const distSq = dx * dx + dy * dy + dz * dz;
+        const radiusSq = radius * radius;
 
-        if (dist < radius) {
-            const t = (radius - dist) / radius; // 0..1 binnen de bol
+        if (distSq < radiusSq) {
+            const dist = Math.sqrt(distSq); // alleen hier sqrt
+            const t = (radius - dist) / radius;
             const strength = forceStrength * t;
 
             const invDist = dist || 1;
@@ -246,18 +323,16 @@ function updatePoints() {
             const ny = dy / invDist;
             const nz = dz / invDist;
 
-            // radiale duw rondom de bol (nog steeds in local space)
             x += nx * strength;
             y += ny * strength;
             z += nz * strength;
         } else {
-            // rustig terug naar originele positie (ook in local space)
             x += (ox - x) * returnSpeed;
             y += (oy - y) * returnSpeed;
             z += (oz - z) * returnSpeed;
         }
 
-        positions[i]     = x;
+        positions[i] = x;
         positions[i + 1] = y;
         positions[i + 2] = z;
     }
