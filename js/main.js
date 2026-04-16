@@ -82,7 +82,7 @@ function onMouseMove(event) {
     mouseWorld.z = 0;
 }
 
-const lightMapTexture = new THREE.TextureLoader().load('../img/senn.jpg');
+const lightMapTexture = new THREE.TextureLoader().load('img/senn.jpg');
 lightMapTexture.colorSpace = THREE.SRGBColorSpace;
 
 function loadObjPointCloud() {
