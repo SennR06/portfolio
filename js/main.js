@@ -1,7 +1,7 @@
 // js/main.js
 
 import * as THREE from './three.module.js';
-import { OBJLoader } from './OBJloader.js';
+import { OBJLoader } from './OBJLoader.js';
 
 let scene, camera, renderer;
 let points;
