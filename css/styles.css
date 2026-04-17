@@ -752,7 +752,7 @@ header .heading.links .dashed-wrapper:hover {
     width: auto;
 } */
 .about-me .right {
-    height: 80vh;
+    height: 100vh;
     width: 300px;
 }
 
@@ -766,7 +766,7 @@ header .heading.links .dashed-wrapper:hover {
     display: flex;
     flex-direction: column;
     position: fixed;
-    top: 0;
+    top: 10vh;
     right: 0;
     height: fit-content;
 }
@@ -1307,6 +1307,10 @@ header .heading.links .dashed-wrapper:hover {
 @media (max-width: 1185px) {
     .minimum-width-warning {
         transform: translateY(0);
+    }
+
+    main {
+        overflow: hidden;
     }
 }
 

@@ -10,6 +10,8 @@ let mouseWorld;     // 3D punt onder cursor in wereldruimte
 let raycaster;
 let interactionPlane;
 const localMouse = new THREE.Vector3();
+let targetRotationY = 0;
+let baseRotationY = 0;
 
 window.addEventListener('load', () => {
     console.log('window loaded, THREE is:', typeof THREE);
@@ -80,6 +82,9 @@ function onMouseMove(event) {
     raycaster.ray.intersectPlane(interactionPlane, mouseWorld);
 
     mouseWorld.z = 0;
+
+    const maxRotation = 0.2; // ongeveer 30 graden naar links/rechts
+    targetRotationY = mouse.x * maxRotation;
 }
 
 const lightMapTexture = new THREE.TextureLoader().load('img/senn.jpg');
@@ -90,19 +95,20 @@ function loadObjPointCloud() {
     console.log('Loading OBJ…');
 
     loader.load(
-        'decimated-normal.obj',
+        'senn.obj',
         (obj) => {
             console.log('OBJ loaded:', obj);
 
             let mesh = null;
             obj.traverse((child) => {
-                if (child.isMesh && !mesh) {
+                // Pak óf een Mesh óf een LineSegments als bron
+                if ((child.isMesh || child.type === 'LineSegments') && !mesh) {
                     mesh = child;
                 }
             });
 
             if (!mesh) {
-                console.error('No mesh found in OBJ file.');
+                console.error('No mesh/lines found in OBJ file.');
                 return;
             }
 
@@ -173,13 +179,13 @@ function loadObjPointCloud() {
             const size = new THREE.Vector3();
             box.getSize(size);
             const maxDim = Math.max(size.x, size.y, size.z) || 1;
-            const targetSize = 1.5;
+            const targetSize = 1.6;
             const uniformScale = targetSize / maxDim;
 
             // ShaderMaterial dat UV's gebruikt voor licht / schaduw
             const pointsMaterial = new THREE.ShaderMaterial({
                 uniforms: {
-                    uHighlightStrength: { value: 0.2 },
+                    uHighlightStrength: { value: 0.1 },
                     uShadowStrength: { value: 0.8 },
                     uPointSize: { value: 0.08 },
                     uLightMap: { value: lightMapTexture }
@@ -192,7 +198,7 @@ function loadObjPointCloud() {
                         vUv = uv;
                         vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
                         gl_Position = projectionMatrix * mvPosition;
-                        gl_PointSize = uPointSize * (150.0 / -mvPosition.z);
+                        gl_PointSize = uPointSize * (180.0 / -mvPosition.z);
                     }
                 `,
                 fragmentShader: `
@@ -251,12 +257,16 @@ function loadObjPointCloud() {
 
             points = new THREE.Points(pointsGeometry, pointsMaterial);
 
-            // schaal en rotatie
             points.scale.set(uniformScale, uniformScale, uniformScale);
             points.scale.multiplyScalar(1.2);
-            points.rotation.y = -Math.PI / 2;
+
+            points.position.y = -0.1;
+
+            baseRotationY = -Math.PI / 2;   // of een andere waarde die jij mooi vindt
+            points.rotation.y = baseRotationY;
 
             scene.add(points);
+
             console.log('OBJ point cloud loaded with', vertexCount, 'points');
         },
         undefined,
@@ -271,6 +281,10 @@ function animate() {
 
     if (points) {
         updatePoints();
+
+        const lerpSpeed = 0.08;
+        const desired = baseRotationY + targetRotationY;
+        points.rotation.y += (desired - points.rotation.y) * lerpSpeed;
     }
 
     if (renderer && camera && scene) {
@@ -286,7 +300,7 @@ function updatePoints() {
     const original = geometry.attributes.originalPosition.array;
 
     // Interactie
-    const radius = 1.8;  // grootte van de “bubble”
+    const radius = 2.8;  // grootte van de “bubble”
     const forceStrength = 0.6;  // hoe hard de duw is
     const returnSpeed = 0.05; // hoe snel punten terugveren
 
