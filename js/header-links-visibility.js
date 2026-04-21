@@ -1,11 +1,11 @@
 document.addEventListener('DOMContentLoaded', () => {
     const projectsSection = document.querySelector('.projects');
-    const contactSection = document.getElementById('contact');
+    const aboutMeSection = document.getElementById('about-me');
     const projectsBtnHeader = document.getElementById('projects-btn-header');
-    const contactBtnHeader = document.getElementById('contact-btn-header');
+    const aboutMeBtnHeader = document.getElementById('about-me-btn-header');
     const headerLinks = document.querySelector('.heading.links.header');
 
-    if (!projectsSection || !contactSection || !headerLinks) return;
+    if (!projectsSection || !aboutMeSection || !headerLinks) return;
 
     const observer = new IntersectionObserver(
         (entries) => {
@@ -20,11 +20,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                 }
 
-                if (target === contactSection && contactBtnHeader) {
+                if (target === aboutMeSection && aboutMeBtnHeader) {
                     if (entry.isIntersecting) {
-                        contactBtnHeader.style.display = 'none';
+                        aboutMeBtnHeader.style.display = 'none';
                     } else {
-                        contactBtnHeader.style.display = '';
+                        aboutMeBtnHeader.style.display = '';
                     }
                 }
             });
@@ -39,5 +39,5 @@ document.addEventListener('DOMContentLoaded', () => {
     );
 
     observer.observe(projectsSection);
-    observer.observe(contactSection);
+    observer.observe(aboutMeSection);
 });

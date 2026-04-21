@@ -1,6 +1,6 @@
 header {
     padding: 25px;
-    transform: translate(0);
+    transform: translate(0) !important;
     width: 100%;
     box-sizing: border-box;
 }

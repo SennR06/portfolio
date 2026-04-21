@@ -24,8 +24,8 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    // Background bewegen op basis van horizontale scroll
-    window.addEventListener('scroll', () => {
+    // Gedeelde scroll-logica in aparte functie
+    function handleScroll() {
         if (window.scrollX > 0) {
             if (headerTimeout !== null) {
                 clearTimeout(headerTimeout);
@@ -57,7 +57,13 @@ document.addEventListener('DOMContentLoaded', () => {
         lastMouseOffsetX += (-scrollDelta * scrollFactor - lastMouseOffsetX) * 0.1;
 
         updateBackground();
-    });
+    }
+
+    // Background bewegen op basis van horizontale scroll
+    window.addEventListener('scroll', handleScroll);
+
+    // Direct bij load de juiste state zetten op basis van bestaande scrollX
+    handleScroll();
 
     // Background bewegen op basis van muis
     document.addEventListener('mousemove', (e) => {

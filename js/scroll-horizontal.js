@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Buttons voor scrollen
     const scrollTargetForButtons = scrollTarget;
-    const contactSection = document.getElementById('contact');
+    const aboutMeSection = document.getElementById('about-me');
 
     window.scrollToProjects = function () {
         scrollTargetForButtons.scrollTo({
@@ -86,9 +86,9 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     };
 
-    window.scrollToContact = function () {
-        if (!contactSection) return;
-        contactSection.scrollIntoView({
+    window.scrollToAboutMe = function () {
+        if (!aboutMeSection) return;
+        aboutMeSection.scrollIntoView({
             behavior: 'smooth',
         });
     };

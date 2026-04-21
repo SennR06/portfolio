@@ -185,9 +185,9 @@ function loadObjPointCloud() {
             // ShaderMaterial dat UV's gebruikt voor licht / schaduw
             const pointsMaterial = new THREE.ShaderMaterial({
                 uniforms: {
-                    uHighlightStrength: { value: 0.1 },
+                    uHighlightStrength: { value: 0.02 },
                     uShadowStrength: { value: 0.8 },
-                    uPointSize: { value: 0.08 },
+                    uPointSize: { value: 0.1 },
                     uLightMap: { value: lightMapTexture }
                 },
                 vertexShader: `
@@ -260,7 +260,7 @@ function loadObjPointCloud() {
             points.scale.set(uniformScale, uniformScale, uniformScale);
             points.scale.multiplyScalar(1.2);
 
-            points.position.y = -0.1;
+            points.position.y = -0.2;
 
             baseRotationY = -Math.PI / 2;   // of een andere waarde die jij mooi vindt
             points.rotation.y = baseRotationY;

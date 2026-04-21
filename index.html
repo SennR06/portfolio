@@ -5,9 +5,11 @@
     - BACK BTN LEFT + BACK
     - MOTION ON PROJECT
     - PAGE TRANSITION
-    - CONTOUREN
-    - DISABLE CAPTHA IN JAVASCIPT
     - LOADING OBJ TEXT
+    - SMOOTH SCROLL WITH MOUSE WHEEL
+    - CONTEXT ABOUT ME IN PROJECTS
+    - CONTEXT ABOUT PROJECTS IN PROJECTS
+    - REMOVE CONSOLE LOGS
      -->
 
 <html lang="en">
@@ -50,7 +52,7 @@
                 </a>
             </div>
             <div class="dashed-wrapper">
-                <a onclick="scrollToContact()" id="contact-btn-header">contact <svg xmlns="http://www.w3.org/2000/svg"
+                <a onclick="scrollToContact()" id="about-me-btn-header">about me <svg xmlns="http://www.w3.org/2000/svg"
                         width="15" height="15" viewBox="0 0 15 15" fill="none">
                         <path
                             d="M0.131608 13.5712L12.0927 1.61007L3.50787e-05 1.58253L3.49944e-05 -4.4768e-06H14.8447V14.8447H13.2346L13.2346 2.75197L1.27351 14.7131L0.131608 13.5712Z"
@@ -81,7 +83,7 @@
             </div>
             <div class="heading links">
                 <div class="dashed-wrapper">
-                    <a onclick="scrollToProjects()" id="projects-btn">projects <svg xmlns="http://www.w3.org/2000/svg"
+                    <a onclick="scrollToAboutMe()" id="projects-btn">projects <svg xmlns="http://www.w3.org/2000/svg"
                             width="15" height="15" viewBox="0 0 15 15" fill="none">
                             <path
                                 d="M0.131608 13.5712L12.0927 1.61007L3.50787e-05 1.58253L3.49944e-05 -4.4768e-06H14.8447V14.8447H13.2346L13.2346 2.75197L1.27351 14.7131L0.131608 13.5712Z"
@@ -95,7 +97,7 @@
                     </a>
                 </div>
                 <div class="dashed-wrapper">
-                    <a onclick="scrollToContact()" id="contact-btn">contact <svg xmlns="http://www.w3.org/2000/svg"
+                    <a onclick="scrollToAboutMe()" id="about-me-btn">about me <svg xmlns="http://www.w3.org/2000/svg"
                             width="15" height="15" viewBox="0 0 15 15" fill="none">
                             <path
                                 d="M0.131608 13.5712L12.0927 1.61007L3.50787e-05 1.58253L3.49944e-05 -4.4768e-06H14.8447V14.8447H13.2346L13.2346 2.75197L1.27351 14.7131L0.131608 13.5712Z"
@@ -182,7 +184,7 @@
             </div>
         </section>
         <div id="section-scroll-container">
-            <section class="about-me">
+            <section class="about-me" id="about-me">
                 <div class="left">
                     <div class="text">
                         <h3>MORE ABOUT ME</h3>

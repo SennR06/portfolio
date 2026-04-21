@@ -10,30 +10,28 @@ document.addEventListener('DOMContentLoaded', () => {
         e.preventDefault();
 
         // hCaptcha veld optioneel maken zodat je geen error krijgt
-        const hCaptchaField = form.querySelector(
-            'textarea[name=h-captcha-response]'
-        );
-        const hCaptcha = hCaptchaField ? hCaptchaField.value : '';
+        // const hCaptchaField = form.querySelector(
+        //     'textarea[name=h-captcha-response]'
+        // );
+        // const hCaptcha = hCaptchaField ? hCaptchaField.value : '';
 
-        if (hCaptchaField && !hCaptcha) {
-            alert('Please fill out captcha field');
-            return;
-        }
+        // if (hCaptchaField && !hCaptcha) {
+        //     alert('Please fill out captcha field');
+        //     return;
+        // }
 
         const formData = new FormData(form);
-        formData.append('access_key', '18bba8b1-f675-4f35-9b51-0000d6743cdb');
+        formData.append("access_key", "18bba8b1-f675-4f35-9b51-0000d6743cdb");
 
-        const originalText = submitBtn ? submitBtn.textContent : '';
+        const originalText = submitBtn.textContent;
 
-        if (submitBtn) {
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
-        }
+        submitBtn.textContent = "Sending...";
+        submitBtn.disabled = true;
 
         try {
-            const response = await fetch('https://api.web3forms.com/submit', {
-                method: 'POST',
-                body: formData,
+            const response = await fetch("https://api.web3forms.com/submit", {
+                method: "POST",
+                body: formData
             });
 
             const data = await response.json();
@@ -53,7 +51,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         form.reset();
                         submitBtn.textContent = originalText;
                         submitBtn.onclick = null;
-                        console.log('Form reset, ready for new submission.');
                     };
                 }
             } else {
