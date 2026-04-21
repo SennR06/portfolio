@@ -5,56 +5,123 @@ const buttons = document.querySelectorAll('button');
 const links = document.querySelectorAll('a');
 const scrollContainer = document.getElementById('section-scroll-container');
 const aboutSection = document.querySelector('.about-me');
+const howIWorkSection = document.querySelector('.how-i-work');
 const contactSection = document.querySelector('.contact');
 
-// Klein labelelement in de cursor stoppen
+// Label in de cursor
 const cursorLabel = document.createElement('span');
 cursorLabel.className = 'cursor-label';
-cursorLabel.textContent = '';
+cursorLabel.textContent = 'scroll down';
 if (cursor) {
     cursor.appendChild(cursorLabel);
 }
 
-// Cursor positie + scroll-label logica
+// Laatst bekende muispositie
+let lastMouseX = window.innerWidth / 2;
+let lastMouseY = window.innerHeight / 2;
+
+// Mousemove: cursor positie + label
 document.addEventListener('mousemove', (e) => {
     const x = e.clientX;
     const y = e.clientY;
+
+    lastMouseX = x;
+    lastMouseY = y;
 
     if (cursor) {
         cursor.style.top = `${y}px`;
         cursor.style.left = `${x}px`;
     }
 
-    updateCursorLabel(e.clientX, e.clientY);
+    updateCursorLabel(x, y);
 });
 
-function updateCursorLabel(clientX, clientY) {
-    if (!scrollContainer || !aboutSection || !cursorLabel) {
-        return;
-    }
-
-    const aboutRect = aboutSection.getBoundingClientRect();
-
-    const isInside = (rect) =>
+// Hulpfunctie: ligt punt in rect?
+function isInsideRect(rect, clientX, clientY) {
+    return (
         clientX >= rect.left &&
         clientX <= rect.right &&
         clientY >= rect.top &&
-        clientY <= rect.bottom;
+        clientY <= rect.bottom
+    );
+}
 
-    const overAbout = isInside(aboutRect);
+// Bepaalt tekst + zichtbaarheid van het label
+function evaluateCursorLabelVisibility(clientX, clientY) {
+    if (!cursorLabel) return;
 
-    // Alleen tonen als je echt boven about-me hangt
-    if (overAbout) {
-        cursorLabel.textContent = 'scroll down';
+    let labelText = '';
+    let showLabel = false;
+
+    // Check per sectie in de scroll-container
+    if (aboutSection) {
+        const aboutRect = aboutSection.getBoundingClientRect();
+        if (isInsideRect(aboutRect, clientX, clientY)) {
+            labelText = 'scroll down';
+            showLabel = true;
+        }
+    }
+
+    if (!showLabel && howIWorkSection) {
+        const howRect = howIWorkSection.getBoundingClientRect();
+        if (isInsideRect(howRect, clientX, clientY)) {
+            labelText = 'scroll down/up';
+            showLabel = true;
+        }
+    }
+
+    if (!showLabel && contactSection) {
+        const contactRect = contactSection.getBoundingClientRect();
+        if (isInsideRect(contactRect, clientX, clientY)) {
+            labelText = 'scroll up';
+            showLabel = true;
+        }
+    }
+
+    if (showLabel) {
+        cursorLabel.textContent = labelText;
         cursorLabel.style.opacity = '1';
+        cursorLabel.style.transform = 'translate(-50%, 0)';
     } else {
-        cursorLabel.textContent = '';
         cursorLabel.style.opacity = '0';
+        cursorLabel.style.transform = 'translate(-50%, 6px)';
     }
 }
 
+function updateCursorLabel(clientX, clientY) {
+    evaluateCursorLabelVisibility(clientX, clientY);
+}
+
+// Window-scroll (voor het verplaatsen van de custom cursor zelf)
+window.addEventListener(
+    'scroll',
+    () => {
+        if (cursor) {
+            cursor.style.top = `${lastMouseY}px`;
+            cursor.style.left = `${lastMouseX}px`;
+        }
+        updateCursorLabel(lastMouseX, lastMouseY);
+    },
+    { passive: true }
+);
+
+// Container-scroll (belangrijkste in jouw layout)
+if (scrollContainer) {
+    scrollContainer.addEventListener(
+        'scroll',
+        () => {
+            if (cursor) {
+                cursor.style.top = `${lastMouseY}px`;
+                cursor.style.left = `${lastMouseX}px`;
+            }
+            updateCursorLabel(lastMouseX, lastMouseY);
+        },
+        { passive: true }
+    );
+}
+
 // Hover states voor links & buttons
-links.forEach(link => {
+links.forEach((link) => {
     link.addEventListener('mouseenter', () => {
         if (cursor) cursor.classList.add('hover');
     });
@@ -64,7 +131,7 @@ links.forEach(link => {
     });
 });
 
-buttons.forEach(button => {
+buttons.forEach((button) => {
     button.addEventListener('mouseenter', () => {
         if (cursor) cursor.classList.add('hover');
     });

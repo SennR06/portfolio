@@ -68,11 +68,12 @@ body.up {
 .cursor.hover {
     transform: translate(-50%, -50%) scale(0.4) rotate(90deg);
 }
+
 .cursor-label {
     position: absolute;
     top: 120%;
     left: 50%;
-    transform: translateX(-50%);
+    transform: translate(-50%, 6px);
     font-family: Outfit, sans-serif;
     font-size: 0.6rem;
     letter-spacing: 0.08em;
@@ -80,7 +81,7 @@ body.up {
     color: #B8971A;
     white-space: nowrap;
     opacity: 0;
-    transition: opacity 0.2s ease;
+    transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     pointer-events: none;
 }
 
@@ -436,6 +437,10 @@ header .heading.links .dashed-wrapper:hover {
     max-height: 500px;
     aspect-ratio: 3/2;
     object-fit: cover;
+}
+
+.project a {
+    padding: 0;
 }
 
 .project .txt-grp {
@@ -808,6 +813,19 @@ header .heading.links .dashed-wrapper:hover {
     border: 1px solid var(--primary-color);
 }
 
+.line .third {
+    position: absolute;
+    top: 75vh;
+    left: 0;
+    width: 2px;
+    height: 20vh;
+    background-image:
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size: 2px 18px;
+    background-position: 0 0, 0 100%;
+    background-repeat: repeat-y;
+}
+
 .contact .line {
     right: 50px;
     bottom: -10vh;
@@ -824,8 +842,15 @@ header .heading.links .dashed-wrapper:hover {
     top: auto;
 }
 
+.contact .line .second::after {
+    content: "SCROLL UP - HOW I WORK";
+    transform: translate(60%, 680%) rotate(90deg);
+    bottom: auto;
+    top: 0;
+}
+
 .line .second::after {
-    content: "SCROLL DOWN - FOR CONTACT";
+    content: "SCROLL DOWN - HOW I WORK";
     position: absolute;
     bottom: 0;
     right: 0;
@@ -837,14 +862,12 @@ header .heading.links .dashed-wrapper:hover {
     width: max-content;
 }
 
-.contact .line .second::after {
-    content: "SCROLL UP - FOR ABOUT ME";
-    transform: translate(60%, 680%) rotate(90deg);
-    bottom: auto;
-    top: 0;
-}
-
 @media (max-height: 600px) {
+    .about-me {
+        gap: 25px;
+        padding-right: 10px;
+    }
+
     .about-me .left {
         display: flex;
         gap: 50px;
@@ -1202,6 +1225,90 @@ header .heading.links .dashed-wrapper:hover {
     opacity: 1;
 }
 
+.how-i-work {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: center;
+    height: 100%;
+}
+
+.how-i-work h3 {
+    font-size: 6rem;
+    line-height: 5rem;
+    font-weight: bold;
+    width: max-content;
+    margin-bottom: 10px;
+    color: var(--primary-color);
+}
+
+.how-i-work p {
+    max-width: 495px;
+    color: var(--primary-color);
+}
+
+.how-i-work .line {
+    position: absolute;
+    right: 50px;
+    bottom: 10vh;
+    top: auto;
+}
+
+.how-i-work .line .first {
+    bottom: 60vh;
+    top: auto;
+}
+
+.how-i-work .line .second {
+    bottom: 5vh;
+    height: 70vh;
+    top: auto;
+}
+
+.how-i-work .line .third {
+    bottom: 0;
+    top: auto;
+}
+
+.how-i-work .line .first::before {
+    content: "SCROLL DOWN - CONTACT";
+    position: absolute;
+    bottom: -55vh;
+    right: 0;
+    transform: translate(60%, -780%) rotate(90deg);
+    font-family: Outfit, sans-serif;
+    font-size: 1rem;
+    color: var(--primary-color);
+    font-weight: 400;
+    width: max-content;
+}
+
+.how-i-work .line .second::after {
+    content: "SCROLL UP - ABOUT ME";
+    transform: translate(60%, 680%) rotate(90deg);
+    bottom: auto;
+    top: 0;
+}
+
+@media (max-height: 650px) {
+    /* .how-i-work .line .first::before {
+        content: "DOWN" !important;
+        bottom: -70vh;
+        right: -10px;
+    }
+
+    .how-i-work .line .second::after {
+        content: "UP" !important;
+        right: -10px;
+        top: -12vh;
+    } */
+
+    .how-i-work .line .first::before,     .how-i-work .line .second::after {
+        font-size: 0.75rem !important;
+    }
+}
+
 #section-scroll-container {
     margin-left: -800px;
     padding-left: 600px;
@@ -1333,4 +1440,85 @@ header .heading.links .dashed-wrapper:hover {
     .custom-cursor {
         display: none;
     }
+}
+
+/* ===== PAGE TRANSITION OVERLAY ===== */
+
+#page-transition {
+    position: fixed;
+    inset: 0;
+    z-index: 1900;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(20px);
+    background-color: var(--background-color);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 55px 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition:
+        opacity 1.5s ease,
+        transform 1.5s ease;
+}
+
+#page-transition.active {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+}
+
+.page-transition-inner {
+    position: relative;
+    padding: 14px 22px 16px 22px;
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+}
+
+.page-transition-inner::before {
+    content: "";
+    position: absolute;
+    inset: -3px;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size:
+        15px 1px,
+        1px 15px,
+        15px 1px,
+        1px 15px;
+    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+    background-position:
+        0 0,
+        100% 0,
+        0 100%,
+        0 0;
+    animation: page-transition-border-dash 1s linear infinite;
+    opacity: 0.8;
+    pointer-events: none;
+}
+
+@keyframes page-transition-border-dash {
+    to {
+        background-position:
+            -15px 0,
+            100% -15px,
+            15px 100%,
+            0 15px;
+    }
+}
+
+.page-transition-label {
+    display: block;
+    font-family: Outfit, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary-color);
 }

@@ -7,6 +7,17 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (!projectsSection || !aboutMeSection || !headerLinks) return;
 
+    const updateGap = () => {
+        const buttons = [projectsBtnHeader, aboutMeBtnHeader].filter(Boolean);
+
+        // Tel alleen knoppen waarvan display niet 'none' is
+        const visibleButtonsCount = buttons.filter(
+            (btn) => btn.style.display !== 'none'
+        ).length;
+
+        headerLinks.style.gap = visibleButtonsCount > 1 ? '50px' : '0';
+    };
+
     const observer = new IntersectionObserver(
         (entries) => {
             entries.forEach((entry) => {
@@ -29,8 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             });
 
-            const anyIntersecting = entries.some((e) => e.isIntersecting);
-            headerLinks.style.gap = anyIntersecting ? '0' : '50px';
+            // Na het updaten van de knoppen, altijd de gap herberekenen
+            updateGap();
         },
         {
             root: null,
@@ -40,4 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     observer.observe(projectsSection);
     observer.observe(aboutMeSection);
+
+    // Initiele gap instellen op basis van huidige zichtbaarheid
+    updateGap();
 });
