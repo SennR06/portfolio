@@ -4,7 +4,6 @@
     - CONTACT ON PROJECT
     - BACK BTN LEFT + BACK
     - MOTION ON PROJECT
-    - PAGE TRANSITION
     - LOADING OBJ TEXT
     - SMOOTH SCROLL WITH MOUSE WHEEL
     - CONTEXT ABOUT PROJECTS IN PROJECTS
@@ -180,15 +179,14 @@
                 </div>
             </div>
             <div class="project three" data-depth="1.6">
-                <img src="img/digital-magazine-expierence_thumbnail.jpg" alt="placeholder">
+                <img src="img/coming-soon-thumbnail.jpg" alt="placeholder">
                 <div class="txt-btn-grp">
                     <div class="txt-grp">
-                        <h3>DIGITAL MAGAZINE EXPIERENCE</h3>
-                        <h4>UI Design</h4>
-                        <p>A minimal, responsive online magazine combining editorial layout and a longform article on
-                            UX, designed for a smooth reading experience on both mobile and desktop.</p>
+                        <h3>COMING SOON</h3>
+                        <h4>UI/UX Design</h4>
+                        <p>I'm currently working on a new project. It will be added soon. Please hang in there for just a little while longer.</p>
                     </div>
-                    <a href="project.html">
+                    <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                             <path
                                 d="M0.244417 25.2114L22.4648 2.99107L-7.94699e-06 2.93991L-7.77841e-06 7.77841e-06H27.5772V27.5772L24.5861 27.5772L24.5861 5.11239L2.36574 27.3327L0.244417 25.2114Z"
@@ -209,15 +207,9 @@
                     <div class="text">
                         <h3>MORE ABOUT ME</h3>
                         <p>My name is Senn, nice to meet you. I enjoy creating digital products. UI design is what I
-                            love to
-                            do,
-                            and
-                            UX design is always part of that, which I don't want to forget. In addition to experimenting
-                            on
-                            my
-                            own,
-                            I am still studying at Zuyd University of Applied Sciences. Here, I am pursuing a degree in
-                            Communication and Multimedia Design.</p>
+                            love to do, and UX design is always part of that, which I don't want to forget. In addition
+                            to experimenting on my own, I am still studying at Zuyd University of Applied Sciences.
+                            Here, I am pursuing a degree in Communication and Multimedia Design.</p>
                     </div>
                     <div id="study-toolbox-grp">
                         <div class="study">
@@ -234,37 +226,73 @@
                                 <div class="year">4</div>
                             </div>
                         </div>
-                        <div class="my-toolbox">
-                            <h4>MY TOOLBOX</h4>
-                            <div class="toolbox">
-                                <img src="img/figma.png" alt="figma-logo">
-                                <img src="img/photoshop.png" alt="adobe-photoshop-logo">
-                                <img src="img/illustrator.png" alt="adobe-illustrator-logo">
-                                <img src="img/miro.png" alt="miro-logo">
-                                <img src="img/notion.png" alt="notion-logo">
-                                <img src="img/spline.png" alt="spline-logo">
-                            </div>
+                        <div class="buttons">
+                            <a onclick="scrollToHowIWork()">design process
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
+                                    fill="none">
+                                    <path
+                                        d="M9.04347 -9.52136e-07L9.04347 13.5325L15.8997 6.70738L16.7949 7.60259L8.39752 16L0.000112076 7.60259L0.910908 6.6918L7.75156 13.5325L7.75156 -1.06508e-06L9.04347 -9.52136e-07Z"
+                                        fill="white" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
+                                    fill="none">
+                                    <path
+                                        d="M9.04347 -9.52136e-07L9.04347 13.5325L15.8997 6.70738L16.7949 7.60259L8.39752 16L0.000112076 7.60259L0.910908 6.6918L7.75156 13.5325L7.75156 -1.06508e-06L9.04347 -9.52136e-07Z"
+                                        fill="white" />
+                                </svg>
+                            </a>
+                            <a onclick="scrollToContact()">contact
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
+                                    fill="none">
+                                    <path
+                                        d="M9.04347 -9.52136e-07L9.04347 13.5325L15.8997 6.70738L16.7949 7.60259L8.39752 16L0.000112076 7.60259L0.910908 6.6918L7.75156 13.5325L7.75156 -1.06508e-06L9.04347 -9.52136e-07Z"
+                                        fill="white" />
+                                </svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16"
+                                    fill="none">
+                                    <path
+                                        d="M9.04347 -9.52136e-07L9.04347 13.5325L15.8997 6.70738L16.7949 7.60259L8.39752 16L0.000112076 7.60259L0.910908 6.6918L7.75156 13.5325L7.75156 -1.06508e-06L9.04347 -9.52136e-07Z"
+                                        fill="white" />
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <!-- <img src="https://cdn.webshopapp.com/shops/86992/files/333780963/bob-de-bouwer-kostuum-huren-153.jpg"
-                    alt="portret" class="right"> -->
                 <div id="app" class="right"></div>
                 <div class="line">
                     <div class="first"></div>
                     <div class="second"></div>
                 </div>
             </section>
-            <section class="how-i-work">
-                <h3>HOW I WORK</h3>
-                <p>I design in an intuitive way. I rarely start from individual screens, but from the journey someone
-                    takes and what that experience should feel like. I like to map how a user arrives, which steps they
-                    go through and where they might need a small nudge. From there I make choices in flows, states and
-                    copy that feel calm and logical for the user, even when the concept is playful or surprising. I work
-                    in a focused and structured way, often turning a loose collection of ideas or wireframes into one
-                    clear story that makes sense from the first click to the final interaction. I am curious and driven,
-                    always looking for ways to improve my skills and to make work that has real impact instead of
-                    delivering something that feels half finished.</p>
+            <section class="how-i-work" id="how-i-work">
+                <div class="text">
+                    <h3>DESIGN PROCESS</h3>
+                    <p>I design in an intuitive way. I rarely start from individual screens, but from the journey
+                        someone
+                        takes and what that experience should feel like. I like to map how a user arrives, which steps
+                        they
+                        go through and where they might need a small nudge. From there I make choices in flows, states
+                        and
+                        copy that feel calm and logical for the user, even when the concept is playful or surprising. I
+                        work
+                        in a focused and structured way, often turning a loose collection of ideas or wireframes into
+                        one
+                        clear story that makes sense from the first click to the final interaction. I am curious and
+                        driven,
+                        always looking for ways to improve my skills and to make work that has real impact instead of
+                        delivering something that feels half finished.</p>
+                </div>
+                <div class="my-toolbox">
+                    <h4>MY TOOLBOX</h4>
+                    <div class="toolbox">
+                        <img src="img/figma.png" alt="figma-logo">
+                        <img src="img/photoshop.png" alt="adobe-photoshop-logo">
+                        <img src="img/illustrator.png" alt="adobe-illustrator-logo">
+                        <img src="img/miro.png" alt="miro-logo">
+                        <img src="img/notion.png" alt="notion-logo">
+                        <img src="img/spline.png" alt="spline-logo">
+                    </div>
+                </div>
                 <div class="line">
                     <div class="first"></div>
                     <div class="second"></div>

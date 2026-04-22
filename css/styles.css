@@ -589,6 +589,7 @@ header .heading.links .dashed-wrapper:hover {
     background-repeat: repeat;
     padding: 10px;
     width: fit-content;
+    height: fit-content;
     border: 1px solid var(--primary-color);
 }
 
@@ -692,79 +693,38 @@ header .heading.links .dashed-wrapper:hover {
     opacity: 1;
 }
 
-.my-toolbox {
+.about-me .buttons {
     display: flex;
     flex-direction: column;
-    gap: 15px;
-}
-
-.my-toolbox h4 {
-    color: var(--primary-color);
-    font-size: 2rem;
-    line-height: 2rem;
-    font-weight: bold;
-}
-
-.toolbox {
-    position: relative;
-    display: flex;
     gap: 10px;
+    height: fit-content;
+}
+
+.about-me a {
+    display: flex;
+    position: relative;
     width: fit-content;
-    padding: 10px;
-    stroke: var(--primary-color);
+    height: fit-content;
+    padding: 10px 14px;
+    overflow: hidden;
+    gap: 5px;
 }
 
-.toolbox::before {
-    content: "";
+.about-me a svg:first-child {
     position: absolute;
-    inset: -4px;
-    z-index: -1;
-    pointer-events: none;
-    background-image:
-        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
-        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
-        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
-        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
-    background-size:
-        15px 1px,
-        1px 15px,
-        15px 1px,
-        1px 15px;
-    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
-    background-position:
-        0 0,
-        100% 0,
-        0 100%,
-        0 0;
+    right: 14px;
+    bottom: 12px;
+    transform: translateY(-300%);
 }
-
-.toolbox:hover::before {
-    animation: toolbox-border-dash 1s linear infinite;
+.about-me a svg {
+    transform: translateY(0);
 }
-
-@keyframes toolbox-border-dash {
-    to {
-        background-position:
-            -15px 0,
-            100% -15px,
-            15px 100%,
-            0 15px;
-    }
-}
-
-.toolbox img {
-    height: 30px;
+.about-me a:hover svg {
     transition: .3s ease;
+    transform: translateY(300%);
 }
-
-.toolbox:hover img {
-    scale: .9;
-    opacity: .7;
-}
-
-.toolbox img:hover {
-    scale: 1.1;
-    opacity: 1;
+.about-me a:hover svg:first-child {
+    transform: translateY(0);
 }
 
 /* .about-me img.right {
@@ -843,14 +803,14 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .contact .line .second::after {
-    content: "SCROLL UP - HOW I WORK";
+    content: "SCROLL UP - design process";
     transform: translate(60%, 680%) rotate(90deg);
     bottom: auto;
     top: 0;
 }
 
 .line .second::after {
-    content: "SCROLL DOWN - HOW I WORK";
+    content: "SCROLL DOWN - design process";
     position: absolute;
     bottom: 0;
     right: 0;
@@ -890,7 +850,8 @@ header .heading.links .dashed-wrapper:hover {
     align-items: center;
     margin-top: 50vh;
     transform: translateY(-50%);
-    height: fit-content;
+    height: 100%;
+    min-height: 450px;
     width: min-content;
     overflow-x: visible;
     gap: 150px;
@@ -1228,23 +1189,25 @@ header .heading.links .dashed-wrapper:hover {
 .how-i-work {
     position: relative;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    align-items: center;
     scroll-snap-align: center;
     height: 100%;
+    gap: 50px;
+}
+
+.how-i-work .text {
+    max-width: 495px;
 }
 
 .how-i-work h3 {
     font-size: 6rem;
     line-height: 5rem;
     font-weight: bold;
-    width: max-content;
     margin-bottom: 10px;
     color: var(--primary-color);
 }
 
 .how-i-work p {
-    max-width: 495px;
     color: var(--primary-color);
 }
 
@@ -1272,7 +1235,7 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .how-i-work .line .first::before {
-    content: "SCROLL DOWN - CONTACT";
+    content: "SCROLL DOWN - contact";
     position: absolute;
     bottom: -55vh;
     right: 0;
@@ -1285,28 +1248,107 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .how-i-work .line .second::after {
-    content: "SCROLL UP - ABOUT ME";
+    content: "SCROLL UP - about me";
     transform: translate(60%, 680%) rotate(90deg);
     bottom: auto;
     top: 0;
 }
 
 @media (max-height: 650px) {
-    /* .how-i-work .line .first::before {
-        content: "DOWN" !important;
-        bottom: -70vh;
-        right: -10px;
-    }
 
+    .how-i-work .line .first::before,
     .how-i-work .line .second::after {
-        content: "UP" !important;
-        right: -10px;
-        top: -12vh;
-    } */
-
-    .how-i-work .line .first::before,     .how-i-work .line .second::after {
         font-size: 0.75rem !important;
     }
+
+    @media (max-height: 475px) {
+        .how-i-work .line .first::before {
+            content: "DOWN" !important;
+            bottom: -70vh;
+            right: -10px;
+        }
+
+        .how-i-work .line .second::after {
+            content: "UP" !important;
+            right: -10px;
+            top: -12vh;
+        }
+    }
+}
+
+.my-toolbox {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.my-toolbox h4 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    line-height: 2rem;
+    font-weight: bold;
+}
+
+.toolbox {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    width: fit-content;
+    padding: 10px;
+    stroke: var(--primary-color);
+}
+
+.toolbox::before {
+    content: "";
+    position: absolute;
+    inset: -4px;
+    z-index: -1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to right, var(--primary-color) 50%, transparent 50%),
+        linear-gradient(to bottom, var(--primary-color) 50%, transparent 50%);
+    background-size:
+        15px 1px,
+        1px 15px,
+        15px 1px,
+        1px 15px;
+    background-repeat: repeat-x, repeat-y, repeat-x, repeat-y;
+    background-position:
+        0 0,
+        100% 0,
+        0 100%,
+        0 0;
+}
+
+.toolbox:hover::before {
+    animation: toolbox-border-dash 1s linear infinite;
+}
+
+@keyframes toolbox-border-dash {
+    to {
+        background-position:
+            -15px 0,
+            100% -15px,
+            15px 100%,
+            0 15px;
+    }
+}
+
+.toolbox img {
+    height: 30px;
+    transition: .3s ease;
+}
+
+.toolbox:hover img {
+    scale: .9;
+    opacity: .7;
+}
+
+.toolbox img:hover {
+    scale: 1.1;
+    opacity: 1;
 }
 
 #section-scroll-container {
