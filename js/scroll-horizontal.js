@@ -6,44 +6,49 @@ document.addEventListener('DOMContentLoaded', () => {
     window.addEventListener(
         'wheel',
         function (e) {
+            if (!scrollTarget) return;
+
             const isInContainer =
                 scrollContainer && scrollContainer.contains(e.target);
 
             const horizLeft = scrollTarget.scrollLeft;
             const horizRightEdge = horizLeft + window.innerWidth;
             const horizMax = scrollTarget.scrollWidth;
-            const atHorizontalEnd = horizRightEdge >= horizMax - 1;
+            // ruimere marge, zodat "einde" niet te vroeg triggert
+            const atHorizontalEnd = horizRightEdge >= horizMax - 50;
 
-            if (isInContainer) {
+            if (isInContainer && scrollContainer) {
                 const deltaY = e.deltaY;
-                const atTop = scrollContainer.scrollTop <= 0 + 1;
+                const atTop = scrollContainer.scrollTop <= 1;
                 const atBottom =
-                    scrollContainer.scrollTop +
-                    scrollContainer.clientHeight >=
+                    scrollContainer.scrollTop + scrollContainer.clientHeight >=
                     scrollContainer.scrollHeight - 1;
 
+                // Zolang we nog niet aan het horizontale einde zijn:
+                // gebruik vertical wheel om horizontaal door de main te gaan
                 if (!atHorizontalEnd) {
-                    scrollContainer.style.overflowY = 'hidden';
                     const horizontalDelta = e.deltaX + e.deltaY;
                     if (horizontalDelta !== 0) {
                         e.preventDefault();
-                        scrollTarget.scrollLeft += horizontalDelta;
-                        this.setTimeout(() => {
-                            scrollContainer.style.overflowY = 'auto';
-                        }, 1);
+                        scrollTarget.scrollLeft += horizontalDelta; // direct, snel
                     }
                     return;
                 }
 
+                // We ZIJN aan het einde van de main:
+                // - naar boven én aan top container -> horizontaal terug
+                // - anders: gewoon verticaal scrollen in de container (default gedrag)
                 if (deltaY < 0 && atTop) {
                     e.preventDefault();
                     scrollTarget.scrollLeft += deltaY;
                     return;
                 }
 
+                // deltaY > 0 of niet aan top: laat browser gewoon de container verticaal scrollen
                 return;
             }
 
+            // Buiten de container: main horizontaal scrollen met wiel
             if (scrollTarget.scrollWidth <= window.innerWidth) return;
 
             const horizontalDelta = e.deltaX + e.deltaY;
@@ -56,26 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { passive: false }
     );
 
-    // Ctrl/Cmd + +/- zoom blokkeren
-    // window.addEventListener(
-    //     'keydown',
-    //     function (e) {
-    //         if (
-    //             (e.ctrlKey || e.metaKey) &&
-    //             (e.which === 61 ||
-    //                 e.which === 107 ||
-    //                 e.which === 173 ||
-    //                 e.which === 109 ||
-    //                 e.which === 187 ||
-    //                 e.which === 189)
-    //         ) {
-    //             e.preventDefault();
-    //         }
-    //     },
-    //     false
-    // );
-
-    // Buttons voor scrollen
+    // Buttons voor scrollen (blijven smooth)
     const scrollTargetForButtons = scrollTarget;
     const aboutMeSection = document.getElementById('about-me');
     const contactSection = document.getElementById('contact');
@@ -94,12 +80,14 @@ document.addEventListener('DOMContentLoaded', () => {
             behavior: 'smooth',
         });
     };
+
     window.scrollToContact = function () {
         if (!contactSection) return;
         contactSection.scrollIntoView({
             behavior: 'smooth',
         });
     };
+
     window.scrollToHowIWork = function () {
         if (!howIWorkSection) return;
         howIWorkSection.scrollIntoView({

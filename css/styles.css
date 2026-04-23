@@ -713,7 +713,7 @@ header .heading.links .dashed-wrapper:hover {
 .about-me a svg:first-child {
     position: absolute;
     right: 14px;
-    bottom: 12px;
+    bottom: 10px;
     transform: translateY(-300%);
 }
 .about-me a svg {
@@ -1563,4 +1563,85 @@ header .heading.links .dashed-wrapper:hover {
     letter-spacing: 0.18em;
     text-transform: uppercase;
     color: var(--primary-color);
+}
+
+#loader {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    background-color: var(--background-color);
+    background-image:
+        linear-gradient(var(--grid-color) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+    background-size: 55px 55px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+#loader.loader-hidden {
+    opacity: 0;
+    transform: translateY(-20px);
+}
+
+.loader-inner {
+    position: relative;
+    padding: 18px 24px 20px 24px;
+    background-color: var(--background-color);
+    border: 2px solid var(--primary-color);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.18);
+    overflow: hidden;
+}
+
+.loader-badge {
+    position: relative;
+    margin-bottom: 10px;
+}
+
+.loader-label {
+    display: inline-block;
+    font-family: Outfit, sans-serif;
+    font-size: 0.8rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--primary-color);
+    margin-bottom: 6px;
+}
+
+.loader-progress {
+    position: relative;
+    width: 260px;
+    height: 3px;
+    background-color: rgba(44, 82, 229, 0.2);
+    overflow: hidden;
+}
+
+/* Scan-lijn */
+.loader-bar {
+    position: absolute;
+    top: 0;
+    left: -40%;
+    width: 40%;
+    height: 100%;
+    background-color: var(--primary-color);
+    box-shadow: 0 0 12px rgba(44, 82, 229, 0.7);
+    animation: loader-scan 1.1s linear infinite;
+}
+
+@keyframes loader-scan {
+    0% {
+        left: -40%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+.loader-subtitle {
+    font-family: Outfit, sans-serif;
+    font-size: 0.8rem;
+    line-height: 1.1rem;
+    color: var(--primary-color);
+    opacity: 0.8;
 }

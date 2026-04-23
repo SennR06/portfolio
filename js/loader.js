@@ -1,51 +1,38 @@
 // js/loader.js
 
-(function () {
-  const body = document.body;
-  const loader = document.getElementById('loader');
-  if (!loader) return;
+document.addEventListener('DOMContentLoaded', () => {
+    const loader = document.getElementById('loader');
+    const body = document.body;
 
-  // Check of dit de eerste keer is in deze tab
-  const IS_FIRST_VISIT = !sessionStorage.getItem('hasVisited');
-  const MAX_LOADER_TIME = 3000; // fallback
+    if (!loader) return;
 
-  function reallyRemoveLoader() {
-    if (loader && loader.parentNode) {
-      loader.parentNode.removeChild(loader);
+    // Zorg dat je CSS deze class gebruikt als “pagina is nog aan het opstarten”
+    body.classList.add('page-transition-active');
+
+    const startTime = performance.now();
+    const minDuration = 1200; // minimaal 1.2s zichtbaar
+
+    function isModelReady() {
+        return window.modelReady === true;
     }
-  }
 
-  function hideLoader() {
-    if (!loader || loader.classList.contains('hidden')) return;
+    function checkReady() {
+        const elapsed = performance.now() - startTime;
 
-    loader.classList.add('hidden');
-    body.classList.remove('loading');
+        if (isModelReady() && elapsed >= minDuration) {
+            hideLoader();
+        } else {
+            requestAnimationFrame(checkReady);
+        }
+    }
 
-    // Na fade-out element weghalen
-    setTimeout(reallyRemoveLoader, 700);
-  }
+    requestAnimationFrame(checkReady);
 
-  if (IS_FIRST_VISIT) {
-    // Eerste bezoek: loader tonen
-    body.classList.add('loading');
-
-    window.addEventListener('load', () => {
-      // kleine delay voor een prettige animatie
-      setTimeout(() => {
-        hideLoader();
-        sessionStorage.setItem('hasVisited', 'true');
-      }, 600);
-    });
-
-    // Veiligheidsnet
-    setTimeout(() => {
-      hideLoader();
-      sessionStorage.setItem('hasVisited', 'true');
-    }, MAX_LOADER_TIME);
-  } else {
-    // Niet eerste bezoek: loader direct weg (ook bij terug naar home)
-    loader.classList.add('hidden');
-    body.classList.remove('loading');
-    reallyRemoveLoader();
-  }
-})();
+    function hideLoader() {
+        body.classList.remove('page-transition-active');
+        loader.classList.add('loader-hidden'); // fade-out via CSS
+        setTimeout(() => {
+            loader.style.display = 'none';
+        }, 600); // match met transition-duration in CSS
+    }
+});

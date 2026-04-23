@@ -3,6 +3,9 @@
 import * as THREE from './three.module.js';
 import { OBJLoader } from './OBJLoader.js';
 
+// Globale flag voor HTML-loader buiten het canvas
+window.modelReady = false;
+
 let scene, camera, renderer;
 let points;
 let mouse;          // NDC (-1..1)
@@ -13,15 +16,13 @@ const localMouse = new THREE.Vector3();
 let targetRotationY = 0;
 let baseRotationY = 0;
 
-window.addEventListener('load', () => {
-    console.log('window loaded, THREE is:', typeof THREE);
-    init();
-    animate();
-});
+let objLoaded = false;
+
+// Three direct booten zodra de module geladen is
+init();
+animate();
 
 function init() {
-    console.log('inside init, THREE is:', typeof THREE);
-
     mouse = new THREE.Vector2();
     mouseWorld = new THREE.Vector3();
     raycaster = new THREE.Raycaster();
@@ -56,6 +57,8 @@ function init() {
     window.addEventListener('mousemove', onMouseMove);
 
     onWindowResize();
+
+    // Start OBJ laden
     loadObjPointCloud();
 }
 
@@ -74,7 +77,7 @@ function onMouseMove(event) {
     const canvas = renderer.domElement;
     const rect = canvas.getBoundingClientRect();
 
-    // Muis -> NDC op basis van daadwerkelijke canvas-pixels
+    // Muis -> NDC
     mouse.x = ((event.clientX - rect.left) / rect.width) * 2 - 1;
     mouse.y = -((event.clientY - rect.top) / rect.height) * 2 + 1;
 
@@ -87,21 +90,19 @@ function onMouseMove(event) {
     targetRotationY = mouse.x * maxRotation;
 }
 
+// ===== OBJ / POINT CLOUD =====
+
 const lightMapTexture = new THREE.TextureLoader().load('img/senn.jpg');
 lightMapTexture.colorSpace = THREE.SRGBColorSpace;
 
 function loadObjPointCloud() {
     const loader = new OBJLoader();
-    console.log('Loading OBJ…');
 
     loader.load(
         'senn.obj',
         (obj) => {
-            console.log('OBJ loaded:', obj);
-
             let mesh = null;
             obj.traverse((child) => {
-                // Pak óf een Mesh óf een LineSegments als bron
                 if ((child.isMesh || child.type === 'LineSegments') && !mesh) {
                     mesh = child;
                 }
@@ -109,10 +110,11 @@ function loadObjPointCloud() {
 
             if (!mesh) {
                 console.error('No mesh/lines found in OBJ file.');
+                // zelfs als het faalt, markeren we het als "klaar" zodat de HTML-loader niet eindeloos blijft staan
+                window.modelReady = true;
                 return;
             }
 
-            // Zorg dat we UV's uit de geometry krijgen
             const baseGeometry = mesh.geometry;
             const geometryNonIndexed = baseGeometry.index
                 ? baseGeometry.toNonIndexed()
@@ -121,18 +123,16 @@ function loadObjPointCloud() {
             const posAttr = geometryNonIndexed.getAttribute('position');
             if (!posAttr) {
                 console.error('No position attribute on geometry.');
+                window.modelReady = true;
                 return;
             }
 
             const uvAttr = geometryNonIndexed.getAttribute('uv');
             if (!uvAttr) {
                 console.warn('No UV attribute on geometry. Check your OBJ export + OBJLoader.');
-            } else {
-                console.log('UV attribute found with count:', uvAttr.count);
             }
 
             const vertexCount = posAttr.count;
-            console.log('Vertex count:', vertexCount);
 
             const positions = new Float32Array(vertexCount * 3);
             const originalPositions = new Float32Array(vertexCount * 3);
@@ -161,7 +161,6 @@ function loadObjPointCloud() {
                 new THREE.BufferAttribute(originalPositions, 3)
             );
 
-            // UV's kopiëren als ze bestaan
             if (uvAttr) {
                 const uvs = new Float32Array(vertexCount * 2);
                 for (let i = 0; i < vertexCount; i++) {
@@ -171,7 +170,6 @@ function loadObjPointCloud() {
                 pointsGeometry.setAttribute('uv', new THREE.BufferAttribute(uvs, 2));
             }
 
-            // centreer model rond (0,0,0)
             pointsGeometry.center();
             const box = new THREE.Box3().setFromBufferAttribute(
                 pointsGeometry.getAttribute('position')
@@ -182,7 +180,6 @@ function loadObjPointCloud() {
             const targetSize = 1.6;
             const uniformScale = targetSize / maxDim;
 
-            // ShaderMaterial dat UV's gebruikt voor licht / schaduw
             const pointsMaterial = new THREE.ShaderMaterial({
                 uniforms: {
                     uHighlightStrength: { value: 0.02 },
@@ -207,7 +204,6 @@ function loadObjPointCloud() {
                     uniform float uShadowStrength;
                     uniform sampler2D uLightMap;
 
-                    // simpele noise-functie voor subtiel geflikker
                     float rand(vec2 co) {
                         return fract(sin(dot(co, vec2(12.9898,78.233))) * 43758.5453);
                     }
@@ -215,19 +211,14 @@ function loadObjPointCloud() {
                     void main() {
                         vec2 p = gl_PointCoord - 0.5;
                         float r = length(p);
-                        if (r > 0.5) discard; // ronde punten
+                        if (r > 0.5) discard;
 
-                        // kleur uit texture (foto)
                         vec3 texColor = texture2D(uLightMap, vUv).rgb;
-
-                        // exposure / brightness boost
                         float exposure = 1.8;
                         texColor = clamp(texColor * exposure, 0.0, 1.0);
 
-                        // brightness uit texture zelf (na exposure)
                         float brightness = dot(texColor, vec3(0.299, 0.587, 0.114));
-
-                        float contrast = (brightness - 0.5) * 2.0; // -1..1
+                        float contrast = (brightness - 0.5) * 2.0;
 
                         float lightFactor;
                         if (contrast > 0.0) {
@@ -236,15 +227,11 @@ function loadObjPointCloud() {
                             lightFactor = mix(uShadowStrength, 1.0, contrast + 1.0);
                         }
 
-                        // radiale falloff binnen de cirkel -> glow in het midden
                         float falloff = smoothstep(0.5, 0.0, r);
-
-                        // klein beetje random jitter per punt
                         float n = rand(vUv * 50.0);
                         lightFactor *= 0.9 + 0.2 * n;
 
                         vec3 finalColor = texColor * lightFactor * falloff;
-
                         gl_FragColor = vec4(finalColor, 1.0);
                     }
                 `,
@@ -253,25 +240,25 @@ function loadObjPointCloud() {
                 blending: THREE.AdditiveBlending
             });
 
-
-
             points = new THREE.Points(pointsGeometry, pointsMaterial);
 
             points.scale.set(uniformScale, uniformScale, uniformScale);
             points.scale.multiplyScalar(1.2);
-
             points.position.y = -0.2;
 
-            baseRotationY = -Math.PI / 2;   // of een andere waarde die jij mooi vindt
+            baseRotationY = -Math.PI / 2;
             points.rotation.y = baseRotationY;
 
             scene.add(points);
 
-            console.log('OBJ point cloud loaded with', vertexCount, 'points');
+            objLoaded = true;
+            window.modelReady = true; // signaal naar de HTML-loader
         },
         undefined,
         (error) => {
             console.error('Error loading OBJ:', error);
+            // Zorg dat de HTML-loader niet eeuwig blijft staan
+            window.modelReady = true;
         }
     );
 }
@@ -299,18 +286,16 @@ function updatePoints() {
     const positions = geometry.attributes.position.array;
     const original = geometry.attributes.originalPosition.array;
 
-    // Interactie
-    const radius = 2.8;  // grootte van de “bubble”
-    const forceStrength = 0.6;  // hoe hard de duw is
-    const returnSpeed = 0.05; // hoe snel punten terugveren
+    const radius = 2.8;
+    const forceStrength = 0.6;
+    const returnSpeed = 0.05;
 
-    // cursor naar lokale ruimte van points
     localMouse.copy(mouseWorld);
     points.worldToLocal(localMouse);
 
     const cx = localMouse.x;
     const cy = localMouse.y;
-    const cz = localMouse.z; // ~0
+    const cz = localMouse.z;
 
     for (let i = 0; i < positions.length; i += 3) {
         const ox = original[i];
@@ -328,7 +313,7 @@ function updatePoints() {
         const radiusSq = radius * radius;
 
         if (distSq < radiusSq) {
-            const dist = Math.sqrt(distSq); // alleen hier sqrt
+            const dist = Math.sqrt(distSq);
             const t = (radius - dist) / radius;
             const strength = forceStrength * t;
 
