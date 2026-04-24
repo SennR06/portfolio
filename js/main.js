@@ -86,7 +86,7 @@ function onMouseMove(event) {
 
     mouseWorld.z = 0;
 
-    const maxRotation = 0.2; // ongeveer 30 graden naar links/rechts
+    const maxRotation = 0.2;
     targetRotationY = mouse.x * maxRotation;
 }
 
@@ -109,9 +109,7 @@ function loadObjPointCloud() {
             });
 
             if (!mesh) {
-                console.error('No mesh/lines found in OBJ file.');
-                // zelfs als het faalt, markeren we het als "klaar" zodat de HTML-loader niet eindeloos blijft staan
-                window.modelReady = true;
+                console.error('No mesh/lines found in OBJ file.');                window.modelReady = true;
                 return;
             }
 

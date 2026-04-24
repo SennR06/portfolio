@@ -85,21 +85,4 @@ document.addEventListener('DOMContentLoaded', () => {
     if (scale !== 1) {
         console.log('Windows scaling is actief: ' + scale);
     }
-
-    const backButtons = document.querySelectorAll(".back-btn");
-
-    backButtons.forEach((btn) => {
-        btn.addEventListener("click", (event) => {
-            event.preventDefault();
-            goBack();
-        });
-    });
-
-    function goBack() {
-        if (window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = "index.html";
-        }
-    }
 });

@@ -1,12 +1,4 @@
 <!DOCTYPE html>
-<!-- TO DO
-    - NEXT PROJECT
-    - CONTACT ON PROJECT
-    - BACK BTN LEFT + BACK
-    - MOTION ON PROJECT
-    - SMOOTH SCROLL WITH MOUSE WHEEL
-    - REMOVE CONSOLE LOGS
-     -->
 
 <html lang="en">
 
@@ -29,24 +21,7 @@
         rel="stylesheet" />
 </head>
 
-<body class="page-transition-active">
-    <!-- Loader Overlay -->
-    <div id="loader">
-        <div class="loader-inner">
-            <div class="loader-badge">
-                <span class="loader-label">BUILDING INTERFACE</span>
-                <div class="loader-progress">
-                    <div class="loader-bar"></div>
-                </div>
-            </div>
-            <p class="loader-subtitle">Preparing blueprints & aligning grid…</p>
-        </div>
-    </div>
-    <div id="page-transition" class="active">
-        <div class="page-transition-inner">
-            <span class="page-transition-label">BUILDING NEXT VIEW</span>
-        </div>
-    </div>
+<body>
     <div class="cursor"></div>
     <header>
         <div class="heading links header">
@@ -81,7 +56,7 @@
         </div>
     </header>
     <main>
-        <div class="titles-scroller">
+        <div class="titles-scroller overlay">
             <div class="scroller-inner">
                 <p>GRAPHIC DESIGNER</p>
                 <P>JUNIOR UI/UX DESIGNER</P>
@@ -163,7 +138,7 @@
                             Collections through interactive, ever-changing card combinations.</p>
                     </div>
                     <a href="unexpected-research-matchmaker.html">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
+                         <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 28 28" fill="none">
                             <path
                                 d="M0.244417 25.2114L22.4648 2.99107L-7.94699e-06 2.93991L-7.77841e-06 7.77841e-06H27.5772V27.5772L24.5861 27.5772L24.5861 5.11239L2.36574 27.3327L0.244417 25.2114Z"
                                 fill="white" />
@@ -441,7 +416,6 @@
     <!-- <script src="https://unpkg.com/three@0.158.0/build/three.min.js"></script>
     <script src="js/OBJLoader.js"></script> -->
     <script type="module" src="js/main.js"></script>
-    <script src="js/loader.js" defer></script>
     <script src="js/page-transition.js" defer></script>
 
 </body>
