@@ -164,15 +164,18 @@ header {
     display: flex;
     align-items: center;
     gap: 0;
-    padding: 25px 0 25px 65px;
+    width: 100%;
+    padding: 25px 25px 25px 65px;
     z-index: 999;
     transform: translateY(-100%);
     transition: .8s ease;
+    box-sizing: border-box;
 }
 
 header .heading.links {
     padding-left: 0;
     transition: .3s ease;
+    width: 100%;
 }
 
 header .heading.links .dashed-wrapper {
@@ -365,6 +368,45 @@ header .heading.links .dashed-wrapper:hover {
 
 .heading.links a:hover svg:nth-child(2) {
     transform: translate(0, 0);
+}
+
+header #back-btn-header {
+    position: relative;
+    background-color: transparent;
+    color: var(--primary-color);
+    margin-left: auto;
+}
+
+header #back-btn-header::after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 140%;
+    height: 10px;
+    background-image: repeating-linear-gradient(-45deg,
+            var(--primary-color),
+            var(--primary-color) 3px,
+            transparent 1px,
+            transparent 6px);
+    background-repeat: repeat;
+    transform: translateX(-50%);
+    transition: all 0.3s linear;
+}
+
+header #back-btn-header:hover::after {
+    animation: backBtnAfter 0.8s linear infinite;
+}
+
+@keyframes backBtnAfter {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 17px 0;
+        /* of 6px, afhankelijk van je patroon */
+    }
 }
 
 .projects {
@@ -803,8 +845,8 @@ header .heading.links .dashed-wrapper:hover {
 }
 
 .contact .line {
-    right: 50px;
-    bottom: -10vh;
+    right: 100px;
+    bottom: 10vh;
     top: auto;
 }
 
@@ -1229,7 +1271,7 @@ header .heading.links .dashed-wrapper:hover {
 
 .how-i-work .line {
     position: absolute;
-    right: 50px;
+    right: 100px;
     bottom: 10vh;
     top: auto;
 }
@@ -1502,7 +1544,8 @@ header .heading.links .dashed-wrapper:hover {
 
 /* Full-screen overlay (loader + page transition) */
 .titles-scroller.overlay {
-    height: 100vw; /* of 100vw als jij dat mooier vindt bij rotate */
+    height: 100vw;
+    /* of 100vw als jij dat mooier vindt bij rotate */
 }
 
 /* Alleen op project-pagina's: sluit naar rechts, uit beeld */

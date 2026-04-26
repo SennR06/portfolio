@@ -12,45 +12,6 @@ header nav {
     box-sizing: border-box;
 }
 
-header nav #back-btn-header {
-    position: relative;
-    background-color: transparent;
-    color: var(--primary-color);
-}
-
-header nav #back-btn-header::after {
-    content: "";
-    position: absolute;
-    bottom: -5px;
-    left: 50%;
-    width: 140%;
-    height: 10px;
-    background-image: repeating-linear-gradient(-45deg,
-            var(--primary-color),
-            var(--primary-color) 3px,
-            transparent 1px,
-            transparent 6px);
-    background-repeat: repeat;
-    transform: translateX(-50%);
-    transition: all 0.3s linear;
-}
-
-header nav #back-btn-header:hover::after {
-    animation: backBtnAfter 0.8s linear infinite;
-}
-
-@keyframes backBtnAfter {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: 17px 0;
-        /* of 6px, afhankelijk van je patroon */
-    }
-}
-
-
 body.project-page main {
     position: relative;
     width: 100%;
