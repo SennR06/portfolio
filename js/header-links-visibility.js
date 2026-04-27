@@ -3,6 +3,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const aboutMeSection = document.getElementById('about-me');
     const projectsBtnHeader = document.getElementById('projects-btn-header');
     const aboutMeBtnHeader = document.getElementById('about-me-btn-header');
+    const backBtnHeader = document.getElementById('back-btn-header');
     const headerLinks = document.querySelector('.heading.links.header');
 
     if (!projectsSection || !aboutMeSection || !headerLinks) return;
@@ -23,11 +24,14 @@ document.addEventListener('DOMContentLoaded', () => {
             entries.forEach((entry) => {
                 const target = entry.target;
 
-                if (target === projectsSection && projectsBtnHeader) {
-                    if (entry.isIntersecting) {
-                        projectsBtnHeader.style.display = 'none';
-                    } else {
-                        projectsBtnHeader.style.display = '';
+                if (target === projectsSection) {
+                    if (projectsBtnHeader) {
+                        projectsBtnHeader.style.display = entry.isIntersecting ? 'none' : '';
+                    }
+
+                    // "VIEW ALL PROJECTS" alleen tonen als de projecten-sectie in beeld is
+                    if (backBtnHeader) {
+                        backBtnHeader.style.display = entry.isIntersecting ? '' : 'none';
                     }
                 }
 
@@ -48,10 +52,6 @@ document.addEventListener('DOMContentLoaded', () => {
             threshold: 0.1,
         }
     );
-
     observer.observe(projectsSection);
     observer.observe(aboutMeSection);
-
-    // Initiele gap instellen op basis van huidige zichtbaarheid
-    updateGap();
 });

@@ -70,7 +70,11 @@ function evaluateCursorLabelVisibility(clientX, clientY) {
         }
     }
 
-    if (!showLabel && contactSection) {
+    if (
+        !showLabel &&
+        contactSection &&
+        !contactSection.classList.contains('pop-up')
+    ) {
         const contactRect = contactSection.getBoundingClientRect();
         if (isInsideRect(contactRect, clientX, clientY)) {
             labelText = 'scroll up';

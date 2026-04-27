@@ -311,12 +311,26 @@ footer .right a:hover svg:nth-child(2) {
         linear-gradient(var(--white-grid-color) 1px, transparent 1px),
         linear-gradient(90deg, var(--white-grid-color) 1px, transparent 1px);
     background-size: 50px 50px;
-    transition: opacity 0.1s ease, clip-path 0.4s ease;
+    transition:
+        opacity 0.1s ease,
+        clip-path 0.4s ease;
 }
 
 .contact.pop-up.open {
     opacity: 1;
     clip-path: rect(0 100vw 100vh 0);
+        transition: 
+        opacity 0.1s ease 0s,
+        clip-path 0.4s ease 0s;
+    pointer-events: auto;
+}
+
+.contact.pop-up.closing {
+    opacity: 0;
+    clip-path: rect(25px 150px 61px 25px);
+    transition:
+        opacity 0.1s ease 0.3s,
+        clip-path 0.4s ease 0s;
 }
 
 .dashed-wrapper.open {
@@ -324,9 +338,11 @@ footer .right a:hover svg:nth-child(2) {
     margin-left: 50%;
     transform: translateX(-50%);
 }
+
 .dashed-wrapper.open a {
     background-color: transparent !important;
 }
+
 .dashed-wrapper.open svg {
     display: none;
 }
@@ -335,6 +351,7 @@ footer .right a:hover svg:nth-child(2) {
     background-color: transparent !important;
     color: var(--white) !important;
 }
+
 .back-btn.open svg {
     display: block;
 }
@@ -399,4 +416,42 @@ footer .right a:hover svg:nth-child(2) {
 
 .contact.pop-up svg {
     fill: var(--primary-color);
+}
+
+.all-projects {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    max-width: 1000px;
+    align-self: center;
+}
+.all-projects .project {
+    width: 100%;
+    box-sizing: border-box;
+}
+.all-projects .project a:nth-child(1) {
+    width: 100%;
+}
+.all-projects .project a {
+    width: 60%;
+}
+.all-projects .project a img {
+    width: 100%;
+    margin: 0;
+}
+.all-projects .project h3 {
+    font-size: 2rem;
+    line-height: 2.5rem;
+    line-height: normal;
+    color: var(--white);
+}
+.all-projects .project h4 {
+    font-size: 1rem;
+    line-height: 1.25rem;
+    color: var(--white);
+}
+.all-projects .project p {
+    font-size: 1rem;
+    line-height: normal;
+    color: var(--white);
 }

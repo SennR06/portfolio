@@ -33,26 +33,33 @@ function closeContactPopup() {
     const dashedWrapper = document.querySelector('.dashed-wrapper');
     const backBtn = document.querySelector('.back-btn');
 
-    if (!popup || !dashedWrapper) return;
+    if (!popup || !dashedWrapper || !backBtn) return;
 
-    // open state weghalen
+    // open weghalen, closing toevoegen
     popup.classList.remove('open');
+    popup.classList.add('closing');
+
     dashedWrapper.classList.remove('open');
     backBtn.classList.remove('open');
-        backBtn.innerHTML = `BACK 
-<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-    <path
-        d="M0.13112 13.5712L12.0922 1.61004L-0.000453203 1.5825L-0.000453287 -3.49944e-05H14.8442V14.8446H13.2341L13.2341 2.75194L1.27302 14.713L0.13112 13.5712Z"
-        fill="#2C52E5" />
-</svg>
-<svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
-    <path
-        d="M0.13112 13.5712L12.0922 1.61004L-0.000453203 1.5825L-0.000453287 -3.49944e-05H14.8442V14.8446H13.2341L13.2341 2.75194L1.27302 14.713L0.13112 13.5712Z"
-        fill="#2C52E5" />
-</svg>`;
+    backBtn.innerHTML = `BACK 
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path
+                d="M0.13112 13.5712L12.0922 1.61004L-0.000453203 1.5825L-0.000453287 -3.49944e-05H14.8442V14.8446H13.2341L13.2341 2.75194L1.27302 14.713L0.13112 13.5712Z"
+                fill="#2C52E5" />
+        </svg>
+        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 15 15" fill="none">
+            <path
+                d="M0.13112 13.5712L12.0922 1.61004L-0.000453203 1.5825L-0.000453287 -3.49944e-05H14.8442V14.8446H13.2341L13.2341 2.75194L1.27302 14.713L0.13112 13.5712Z"
+                fill="#2C52E5" />
+        </svg>`;
 
-    // scroll weer aan
+    // scroll weer aan maar pas ná de animatie als je wilt:
     document.body.style.overflow = '';
+
+    // als de langste animatie 0.4s duurt + 0.3s delay op opacity:
+    setTimeout(() => {
+        popup.classList.remove('closing');
+    }, 700);
 }
 
 function isContactOpen() {

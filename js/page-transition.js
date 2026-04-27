@@ -85,9 +85,20 @@
   });
 })();
 
-// Specifieke back-animatie op projectpagina's
 function goBack() {
   const scroller = document.querySelector('.titles-scroller');
+
+  // Helper: bepalen of we "veilig" terug kunnen
+  const canGoBack =
+    document.referrer &&
+    new URL(document.referrer).origin === window.location.origin;
+
+  // Als we niet veilig terug kunnen, direct naar index
+  if (!canGoBack) {
+    window.location.href = '/';
+    return;
+  }
+
   if (!scroller) {
     history.back();
     return;
