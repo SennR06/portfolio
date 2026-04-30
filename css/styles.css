@@ -1414,7 +1414,7 @@ header #back-btn-header:hover::after {
     padding-left: 600px;
     height: 100vh;
     width: min-content;
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: visible;
     scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
