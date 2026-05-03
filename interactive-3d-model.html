@@ -12,21 +12,20 @@
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>INTERACTIVE DIGITAL NARRATIVE</title>
-    <meta name="description"
-        content="For Statistics Netherlands, I developed an interactive digital narrative about the journey of phosphorus: from mining and processing to its use in agriculture, human consumption, and ultimately the pollution of our surface water. Instead of dry statistics, I opted for a linear web story with separate chapters, so that users can experience the phosphorus cycle as a visual journey while scrolling and clicking, in which text, images, and micro-animations reinforce each other and make a complex sustainability issue accessible.">
+    <title>INTERACTIVE 3D MODEL</title>
+    <meta name="description" content="For this 3D project, ">
     <meta name="keywords"
         content="UI design, UX design, web design, digital product design, portfolio, Senn Reinders, interactive design, user experience, user interface, digital storytelling, graphic design, junior designer, communication and multimedia design, Zuyd University of Applied Sciences, design process, design toolbox, contact information, design projects, design case studies, design portfolio, design work, design showcase, design inspiration, design creativity, design skills, design expertise, design solutions, design impact, design thinking, design approach, design philosophy, design methodology, design principles, design aesthetics, design trends, design innovation, design impact, design storytelling, design communication, design collaboration, design feedback, design iteration, design improvement, design growth, design learning, design development, design career, design journey, design passion, design motivation, design goals, design aspirations, design vision, design mission, design values, design ethics, design impact, design influence, design community, design network, design connections, design opportunities, design challenges, design successes, design failures, design lessons, design insights, design reflections, design experiences, design stories, design case studies, design projects, design portfolio, design work, design showcase, design inspiration, design creativity, design skills, design expertise, design solutions, design impact, design thinking, design approach, design philosophy, design methodology, design principles, design aesthetics, design trends, design innovation, design impact, design storytelling, design communication, design collaboration, design feedback, design iteration, design improvement, design growth, design learning, design development, design career, design journey, design passion, design motivation, design goals, design aspirations, design vision, design mission, design values, design ethics, design impact, design influence, design community, design network, design connections, design opportunities, design challenges, design successes, design failures, design lessons, design insights, design reflections, design experiences, design stories, design case studies, design projects, design portfolio, design work, design showcase, design inspiration, design creativity, design skills, design expertise, design solutions, design impact, design thinking, design approach, design philosophy, design methodology, design principles, design aesthetics, design trends, design innovation, design impact, design storytelling, design communication, design collaboration, design feedback, design iteration, design improvement, design growth, design learning, design development, design career, design journey, design passion, design motivation, design goals, design aspirations, design vision, design mission, design values, design ethics, design impact, design influence, design community, design network, design connections, design opportunities, design challenges, design successes, design failures, design lessons, design insights, design reflections, design experiences, design stories, design case studies, design projects, design portfolio, design work, design showcase, design inspiration, design creativity, design skills, design expertise, design solutions, design impact, design thinking, design approach, design philosophy, design methodology, design principles, design aesthetics, design trends, design innovation, design impact, design storytelling, design communication, design collaboration, design feedback, design iteration, design improvement, design growth, design learning, design development, design career, design journey, design passion, design motivation, design goals, design aspirations, design vision, design mission, design values, design ethics, design impact, design influence, design community, design network, design connections, design opportunities, design challenges, design successes, design failures, design lessons, design insights, design reflections, design experiences, design stories, design case studies, design projects, design portfolio, design work, design showcase, design inspiration, design creativity, design skills, design expertise, design solutions, design impact, design thinking, design approach, design philosophy, design methodology, design principles, design aesthetics, design trends, design innovation, design impact, design storytelling, design communication, design collaboration, design feedback, design iteration, design improvement, design growth, design learning, design development, design career, design journey, design passion, design motivation, design goals, design aspirations, design vision, design mission">
     <meta name="author" content="Senn Reinders">
-    <meta property="og:title" content="Interactive Digital Narrative - Senn Reinders | UI/UX Designer">
+    <meta property="og:title" content="Interactive 3D Model - Senn Reinders | UI/UX Designer">
     <meta property="og:description"
-        content="For Statistics Netherlands, I developed an interactive digital narrative about the journey of phosphorus: from mining and processing to its use in agriculture, human consumption, and ultimately the pollution of our surface water. Instead of dry statistics, I opted for a linear web story with separate chapters, so that users can experience the phosphorus cycle as a visual journey while scrolling and clicking, in which text, images, and micro-animations reinforce each other and make a complex sustainability issue accessible.">
+        content="For this project, I designed a digital “matchmaker” around the Special Collections: a playful research tool that pairs students with unexpected themes. You first choose your own study area, but the system deliberately suggests something completely different – for example, a topic from law and governance while you study economics. By drawing and redrawing cards, you discover research ideas and book connections you wouldn’t quickly find yourself, turning the collection into an active source of inspiration instead of a static archive.">
     <meta property="og:image" content="img/portfolio-preview.jpg">
-    <meta property="og:url" content="https://www.sennreinders.com/interactive-digital-narrative.html">
+    <meta property="og:url" content="https://www.sennreinders.com/interactive-3d-model.html">
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Portfolio - Senn">
+    <meta name="twitter:title" content="Portfolio - Senn Reinders | UI/UX Designer">
     <meta name="twitter:description"
-        content="For Statistics Netherlands, I developed an interactive digital narrative about the journey of phosphorus: from mining and processing to its use in agriculture, human consumption, and ultimately the pollution of our surface water. Instead of dry statistics, I opted for a linear web story with separate chapters, so that users can experience the phosphorus cycle as a visual journey while scrolling and clicking, in which text, images, and micro-animations reinforce each other and make a complex sustainability issue accessible.">
+        content="For this project, I designed a digital “matchmaker” around the Special Collections: a playful research tool that pairs students with unexpected themes. You first choose your own study area, but the system deliberately suggests something completely different – for example, a topic from law and governance while you study economics. By drawing and redrawing cards, you discover research ideas and book connections you wouldn’t quickly find yourself, turning the collection into an active source of inspiration instead of a static archive.">
     <meta name="twitter:image" content="img/portfolio-preview.jpg">
     <link rel="icon" type="image/x-icon" href="favicon.png">
     <link rel="stylesheet" href="css/reset.css">
@@ -34,6 +33,7 @@
     <link rel="stylesheet" href="css/project.css">
     <script src="js/cursor.js" defer></script>
     <script src="js/layout-state.js" defer></script>
+    <script src="js/titles-scroller.js" defer></script>
     <script src="js/contact-popup.js" defer></script>
     <link href="https://fonts.googleapis.com/css?family=Outfit:100,200,300,regular,500,600,700,800,900"
         rel="stylesheet" />
@@ -83,46 +83,53 @@
             </div>
         </div>
         <h3>THE STORY</h3>
-        <p>For Statistics Netherlands, I developed an interactive digital narrative about the journey of phosphorus:
-            from mining and processing to its use in agriculture, human consumption, and ultimately the pollution of our
-            surface water. Instead of dry statistics, I opted for a linear web story with separate chapters, so that
-            users can experience the phosphorus cycle as a visual journey while scrolling and clicking, in which text,
-            images, and micro-animations reinforce each other and make a complex sustainability issue accessible.</p>
-        <img src="img/interactive-digital-narrative_design-phone.jpg" alt="design-phone">
+        <p>For this project I explored how 3D can make something as ordinary as “a person standing still” feel alive and
+            almost touchable. Starting from a 3D scan, I built three different visual translations of the same figure: a
+            clean mesh, a raw point cloud and a coloured point cloud. By placing them side by side in a dark, minimal
+            environment, the focus stays on how each representation tells a slightly different story about the same
+            human. It is less about a character with a backstory and more about how our tools shape the way we see and
+            feel digital humans.</p>
+        <img id="theme-picker-image" src="img/interactive-3d-model-itterations.jpg" alt="placeholder">
         <h3>HOW I SHAPED THIS</h3>
-        <p>This project shows how I use storytelling to make complex topics feel human and understandable. Instead of
-            treating this as a data visualisation, I approached it as a guided journey: what should someone feel and
-            realise at each step of the phosphorus cycle? I broke the story into clear chapters and used scrolling,
-            pacing and small interactions to slowly build that awareness. Visually, I kept the interface calm so that
-            movement and transitions do the work, rather than shouting for attention. It is a good example of how I like
-            to translate abstract research into a narrative that users can simply follow, without losing the depth
-            behind it.</p>
-        <img class="full-width" src="img/interactive-digital-narrative_workflow.jpg" alt="workflow-in-figma">
-        <h3>CHALLENGES</h3>
-        <p>The key challenge was to make complex, data-driven content understandable without oversimplifying it. By
-            distilling each stage of the phosphorus cycle into a single clear message, accompanied by appropriate
-            visuals and micro-interactions, I created a consistent experience that feels both informative and intuitive.
+        <p>I used Blender to clean up and sculpt the base mesh so the silhouette, folds in the clothing and small
+            details like the watch and hair felt believable without becoming noisy. From there, I took the data into
+            Spline and Three.js to experiment with how the model behaves in a browser context. In Spline I could quickly
+            test compositions, lighting and camera angles to find a balanced three-quarter view. In Three.js I focused
+            on performance and interaction: loading the point cloud efficiently, adjusting point density and size, and
+            using subtle movement of camera and light to make the figure feel present without distracting animations.
         </p>
-        <img src="img/interactive-digital-narrative_design-responsiveness.jpg" alt="responsiveness-design">
-        <img src="img/interactive-digital-narrative_design-hero.jpg" alt="hero-section-design" class="left-aligned">
-        <img src="img/interactive-digital-narrative_mockup.jpg" alt="mockup">
+        <img class="full-width" src="img/interactive-3d-model-workflow.jpg" alt="placeholder">
+        <h3>CHALLENGES</h3>
+        <p>The first challenge was technical. The original scan was too heavy for Spline, which meant that the scene
+            quickly became unusable in the browser. I tried different optimisation techniques such as decimating the
+            mesh and reducing point density until I found a version that still felt rich, but remained performant and
+            smooth enough to interact with.
+
+            The second challenge was more personal. I wanted the figure to be abstract and built out of points, but
+            still recognisably me. If I pushed the abstraction too far, it became just a generic 3D person. By carefully
+            tuning the density, colour and lighting, I looked for that sweet spot where I could still recognise my own
+            posture and clothing, while the image stays experimental and slightly unreal. Together, these challenges
+            show how I enjoy working right on the edge between technical constraints and a strong, personal visual
+            concept.</p>
+        <div id="app-project"></div>
         <ul class="lables">
-            <li><span>workflow</span> in team</li>
-            <li><span>type project</span> school project</li>
+            <li><span>workflow</span> solo</li>
+            <li><span>type project</span> personal</li>
             <li><span>year</span> 2026</li>
-            <li><span>client</span> CBS</li>
+            <li><span>client</span> none</li>
         </ul>
     </main>
     <footer>
         <div class="left">
-            <img src="img/interactive-digital-narrative_thumbnail-small.jpg" alt="project-thumbnail">
+            <img src="img/interactive-3d-model-thumbnail-small.jpg" alt="project-thumbnail">
             <div class="text">
-                <h3>INTERACTIVE DIGITAL NARRATIVE</h3>
+                <h3>RESEARCH MATCHMAKER</h3>
                 <h4>UI/UX Design</h4>
             </div>
         </div>
         <nav class="right">
-            <a href="https://mia-mms-2526.github.io/team07/" class="visit-project" target="_blank">
+            <a href="index.html#about-me"
+                class="visit-project" target="_blank">
                 visit project
                 <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10" viewBox="0 0 10 10" fill="none">
                     <path
@@ -260,6 +267,7 @@
         </div>
     </section>
 
+    <script type="module" src="js/main.js"></script>
     <script src="js/page-transition.js" defer></script>
 </body>
 

@@ -800,6 +800,18 @@ header #back-btn-header:hover::after {
     height: 100%;
 }
 
+#app-project {
+    display: block;
+    height: 200vh;
+    width: 100%;
+    box-sizing: border-box;
+}
+#app-project canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
 .line {
     display: flex;
     flex-direction: column;

@@ -110,7 +110,6 @@ body.project-page img#theme-picker-image {
     text-transform: uppercase;
 }
 
-
 footer {
     position: fixed;
     bottom: 0;
@@ -450,7 +449,7 @@ footer .right a:hover svg:nth-child(2) {
 }
 
 .all-projects .project a {
-    width: 60%;
+    width: 40%;
 }
 
 .all-projects .project a img {

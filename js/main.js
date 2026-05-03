@@ -27,30 +27,43 @@ function init() {
     mouseWorld = new THREE.Vector3();
     raycaster = new THREE.Raycaster();
 
-    const container = document.getElementById('app');
+    const containerHome = document.getElementById('app-home');
+    const containerProject = document.getElementById('app-project');
+
+    const container = containerProject || containerHome;
     if (!container) {
-        console.error('#app container not found');
+        console.error('No app container found');
         return;
+    }
+
+    // NIEUW: altijd een geldige width/height bepalen
+    const rect = container.getBoundingClientRect();
+    let width = rect.width;
+    let height = rect.height;
+
+    if (!width || !height) {
+        // fallback als layout nog niet klaar is
+        width = 300;
+        height = 400;
+        console.warn('Container size was 0, using fallback size', width, height);
     }
 
     scene = new THREE.Scene();
 
-    const aspect = container.clientWidth / container.clientHeight;
-    camera = new THREE.PerspectiveCamera(45, aspect, 0.01, 100);
+    camera = new THREE.PerspectiveCamera(45, width / height, 0.01, 100);
     camera.position.set(0, 0, 3);
     camera.lookAt(0, 0, 0);
 
     renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     renderer.setPixelRatio(window.devicePixelRatio);
-    renderer.setSize(container.clientWidth, container.clientHeight);
-    renderer.setClearColor(0x000000, 0); // transparante achtergrond
+    renderer.setSize(width, height);
+    renderer.setClearColor(0x000000, 0);
     container.appendChild(renderer.domElement);
 
     const light = new THREE.DirectionalLight(0x2c52e5, 1);
     light.position.set(1, 1, 1);
     scene.add(light);
 
-    // vlak Z=0 voor muis-intersectie
     interactionPlane = new THREE.Plane(new THREE.Vector3(0, 0, 1), 0);
 
     window.addEventListener('resize', onWindowResize);
@@ -58,17 +71,28 @@ function init() {
 
     onWindowResize();
 
-    // Start OBJ laden
     loadObjPointCloud();
 }
 
 function onWindowResize() {
-    const container = document.getElementById('app');
+    const containerHome = document.getElementById('app-home');
+    const containerProject = document.getElementById('app-project');
+    const container = containerProject || containerHome;
+
     if (!container || !camera || !renderer) return;
 
-    camera.aspect = container.clientWidth / container.clientHeight;
+    const rect = container.getBoundingClientRect();
+    let width = rect.width;
+    let height = rect.height;
+
+    if (!width || !height) {
+        width = 300;
+        height = 400;
+    }
+
+    camera.aspect = width / height;
     camera.updateProjectionMatrix();
-    renderer.setSize(container.clientWidth, container.clientHeight);
+    renderer.setSize(width, height);
 }
 
 function onMouseMove(event) {
@@ -109,7 +133,7 @@ function loadObjPointCloud() {
             });
 
             if (!mesh) {
-                console.error('No mesh/lines found in OBJ file.');                window.modelReady = true;
+                console.error('No mesh/lines found in OBJ file.'); window.modelReady = true;
                 return;
             }
 
