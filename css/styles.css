@@ -76,7 +76,6 @@ body.page-exit {
 .cursor.hover {
     transform: translate(-50%, -50%) scale(0.4) rotate(90deg);
 }
-
 .cursor-label {
     position: absolute;
     top: 120%;
@@ -91,6 +90,10 @@ body.page-exit {
     opacity: 0;
     transition: opacity 0.2s ease-out, transform 0.2s ease-out;
     pointer-events: none;
+}
+.cursor.hover .cursor-label {
+    opacity: 0 !important;
+    transform: translate(-50%, 6px) scale(1.2);
 }
 
 main {

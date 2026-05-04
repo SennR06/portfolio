@@ -124,35 +124,21 @@ if (scrollContainer) {
     );
 }
 
-// Hover states voor links & buttons
-links.forEach((link) => {
-    link.addEventListener('mouseenter', () => {
-        if (cursor) cursor.classList.add('hover');
-    });
-
-    link.addEventListener('mouseleave', () => {
-        if (cursor) cursor.classList.remove('hover');
-    });
-});
-
-buttons.forEach((button) => {
-    button.addEventListener('mouseenter', () => {
-        if (cursor) cursor.classList.add('hover');
-    });
-
-    button.addEventListener('mouseleave', () => {
-        if (cursor) cursor.classList.remove('hover');
-    });
-});
-
-// Cursor tonen/verbergen bij in/uit het window
-window.addEventListener('mousemove', () => {
-    if (cursor) cursor.style.display = 'block';
-});
-
-window.addEventListener('mouseout', (event) => {
+document.addEventListener('mouseover', (event) => {
     if (!cursor) return;
-    if (!event.relatedTarget && !event.toElement) {
-        cursor.style.display = 'none';
+
+    const target = event.target.closest('a, button');
+    if (target) {
+        cursor.classList.add('hover');
+    }
+});
+
+document.addEventListener('mouseout', (event) => {
+    if (!cursor) return;
+
+    const related = event.relatedTarget;
+    // Als we het document uitgaan of niet meer boven een a/button hangen → hover uit
+    if (!related || !related.closest || !related.closest('a, button')) {
+        cursor.classList.remove('hover');
     }
 });

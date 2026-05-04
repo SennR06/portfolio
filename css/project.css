@@ -29,7 +29,8 @@ body.project-page main::-webkit-scrollbar {
 
 body.project-page main h3 {
     font-size: 6rem;
-    line-height: normal;
+    line-height: 5rem;
+    margin-bottom: 10px;
     color: var(--primary-color);
 }
 

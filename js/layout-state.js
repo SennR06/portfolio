@@ -79,10 +79,4 @@ document.addEventListener('DOMContentLoaded', () => {
 
         updateBackground();
     });
-
-    // Logging van Windows scaling
-    const scale = window.devicePixelRatio;
-    if (scale !== 1) {
-        console.log('Windows scaling is actief: ' + scale);
-    }
 });
